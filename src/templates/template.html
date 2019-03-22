@@ -1,0 +1,32 @@
+<div class="sticky_box">
+
+	<div class="multimedia_container">
+
+		<div class="walk_container">
+
+			<div class="auto-resizable-iframe">
+			  <div>
+			    <div id="walk_video"></div>
+			  </div>
+			</div>
+		</div>
+
+		<div class="sidebar_container">
+
+			<div id="map"></div>
+
+			<div class="sidebar_editorial_container">{{blurb}}</div>
+
+			<div class="sidebar_navigation_container">
+				<ul>
+                {{#each weypoints}}
+					<li on-tap="['play', LATITUDE, LONGITUDE, x, y, EDITORIAL]">{{LOCATION}}</li>
+                {{/each}}
+				</ul>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
