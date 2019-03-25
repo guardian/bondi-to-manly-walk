@@ -16,22 +16,22 @@
 	z-index: 10;
 	animation: slideIn .5s ease-in-out both;
 
-	@include mq($until: mobile) {
+	@include mq($until: mobileLandscape) {
 		width: 100%;
 		display: inline-block;
-		background: rgba(88, 88, 88, 1);
+		background-color: black;
 	}
 
-	@include mq($from: mobile, $until: tablet) {
+	@include mq($from: mobileLandscape, $until: tablet) {
 		width: 100%;
 		display: inline-block;
-		background: rgba(88, 88, 88, 1);
+		background-color: black;
 	}
 
 	@include mq($from: tablet, $until: desktop) {
 		width: 100%;
 		display: inline-block;
-		background: rgba(88, 88, 88, 1);
+		background-color: black;
 	}
 
 	@include mq($from: desktop) {
@@ -95,12 +95,50 @@
 	line-height: 18px;
 	font-size: 14px;
 	background-color: white;
+
+	@include mq($until: mobileLandscape) {
+		width: 100%;
+	}
+
+	@include mq($from: mobileLandscape, $until: tablet) {
+		width: 100%;
+	}
+
+	@include mq($from: tablet, $until: desktop) {
+		width: 50%;
+		float: right;
+	}
+
+	@include mq($from: desktop) {
+		width: 100%;
+	}
+
 }
 
 .sidebar_navigation_container {
-	width: 100%;
+	
 	margin-top: 20px;
-	column-count: 1;
+	
+	@include mq($until: mobileLandscape) {
+		width: 100%;
+		
+	}
+
+	@include mq($from: mobileLandscape, $until: tablet) {
+		width: 100%;
+	}
+
+	@include mq($from: tablet, $until: desktop) {
+		width: 50%;
+		float: right;
+	}
+
+	@include mq($from: desktop) {
+		width: 100%;
+		column-count: 2;
+	}
+
+
 }
 
 .sidebar_navigation_container ul {
@@ -112,13 +150,26 @@
 .sidebar_navigation_container li {
 	width: 100%;
 	font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
-	line-height: 18px;
+	line-height: 14px;
 	font-size: 14px;
 	border-top: 1px dotted white;
-	padding-top: 3px;
-	padding-bottom: 3px;
 	cursor: pointer;
+	box-sizing: border-box;
+	padding: 6px;
 }
+
+.sidebar_navigation_container li:nth-child(8) {
+
+	@include mq($from: desktop) {
+		margin-top: -6px;
+	}
+	
+}
+
+.sidebar_navigation_container li:nth-child(13) {
+	border-bottom: 1px dotted white;
+}
+
 
 .sidebar_button {
 	background-color: #ef0bd7;
@@ -140,28 +191,34 @@
 	height: 0px;
     z-index: 9;
     margin-bottom: 20px;
-    background-color: lightgrey;
+    border: 1px solid white;
 
-	@include mq($until: mobile) {
+	@include mq($until: mobileLandscape) {
 		width: 100%;
 		padding-bottom: 100%;
+		background-color: darkgrey;
 	}
 
-	@include mq($from: mobile, $until: tablet) {
+	@include mq($from: mobileLandscape, $until: tablet) {
 		width: 50%;
 		margin-left: 25%;
 		padding-bottom: 50%;
+		background-color: lightgrey;
 	}
 
 	@include mq($from: tablet, $until: desktop) {
-		width: 50%;
-		margin-left: 25%;
+		width: calc(50% - 20px);
 		padding-bottom: 50%;
+		float: left;
+		background-color: lightgrey;
 	}
 
 	@include mq($from: desktop) {
 		width: 100%;
 		padding-bottom: 100%;
+		background-color: lightgrey;
+		border-radius: 50% 0 50% 50% ;
+		
 	}
 
 }

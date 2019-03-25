@@ -157,13 +157,13 @@
 		position: absolute;
 		z-index: 8;
 
-		@include mq($until: mobile) {
-			top: 5%;
+		@include mq($until: mobileLandscape) {
+			top: 70px;
 			left: 5%;
 			width: 90%;
 		}
 
-		@include mq($from: mobile, $until: tablet) {
+		@include mq($from: mobileLandscape, $until: tablet) {
 			top: 5%;
 			left: 5%;
 			width: 90%;
@@ -189,7 +189,7 @@
 		color: #ef0bd7;
 		line-height: 60px;
 		text-align: left;
-		font-size: 28px;
+		font-size: 22px;
 		float: left;
 		padding-left: 20px;
 	}
@@ -207,12 +207,11 @@
 		font-weight: 700;
 		color: #ef0bd7;
 
-		@include mq($until: mobile) {
-			font-size: 20px;
-			line-height: 24px;
+		@include mq($until: mobileLandscape) {
+			display: none;
 		}
 
-		@include mq($from: mobile, $until: tablet) {
+		@include mq($from: mobileLandscape, $until: tablet) {
 			font-size: 35px;
 			line-height: 39px;
 		}
@@ -243,13 +242,13 @@
 		color: white;
 		
 
-		@include mq($until: mobile) {
+		@include mq($until: mobileLandscape) {
 			font-size: 14px;
 			line-height: 20px;
 			margin-top: 10px;
 		}
 
-		@include mq($from: mobile, $until: tablet) {
+		@include mq($from: mobileLandscape, $until: tablet) {
 			font-size: 16px;
 			line-height: 20px;
 			margin-top: 10px;

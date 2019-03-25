@@ -1,3 +1,5 @@
+@import "mq";
+
 .nav-wrap {
 	box-sizing: border-box;
 	width: 100%;
@@ -60,25 +62,32 @@
 		height: 34px;
 		position: fixed;
 		right: 10px;
-	}
 
-	@media (min-width: 380px) {
-		.audio-switch-box {
-			top: 10px;
-		}
-	}
 
-	@media (max-width: 379px) {
-		.audio-switch-box {
-			top: 20px;
-		}
+
 	}
 
 	.switch {
 		position: relative;
-		display: inline-block;
 		width: 60px;
 		height: 34px;
+
+		@include mq($until: mobileLandscape) {
+			display: none;
+		}
+
+		@include mq($from: mobileLandscape, $until: tablet) {
+			display: none;
+		}
+
+		@include mq($from: tablet, $until: desktop) {
+			display: inline-block;
+		}
+
+		@include mq($from: desktop) {
+			display: inline-block;
+		}
+
 	}
 
 	.switch input {

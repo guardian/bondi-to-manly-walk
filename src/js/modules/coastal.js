@@ -27,7 +27,7 @@ export class Coastal {
 
         this.screenHeight = document.documentElement.clientHeight
 
-        this.path = 'http://gdn-cdn.s3.amazonaws.com/2019/03/bondi-to-manly'
+        this.path = 'https://gdn-cdn.s3.amazonaws.com/2019/03/bondi-to-manly'
 
         this.isMobile = this.toolbelt.mobileCheck()
 
@@ -120,7 +120,7 @@ export class Coastal {
 
         this.database = {
 
-            blurb: "Drag the map marker to a point on the route to play the video at that point or take the tour below.",
+            blurb: "Drag the map marker along the route or click on one of the destionations below.",
 
             waypoints: self.waypoints,
 
@@ -148,7 +148,6 @@ export class Coastal {
 
         self.ractivate()
 
-        
     }
 
     ractivate() {
@@ -410,6 +409,7 @@ export class Coastal {
                 var duration = self.googledoc[i].duration // video duration
                 var pecentage = 100 / stage_distance * ( distance - distance_from_start )
                 var playhead = Math.floor(duration / 100 * pecentage) + video_start
+                var leg = (i>0) ? self.googledoc[i-1].LOCATION : "Bondi" ;
 
                 // If the user has selected a deadzone skip to the next waypoint
                 if (self.googledoc[i].SKIP) {
@@ -420,9 +420,11 @@ export class Coastal {
 
                     playhead = self.googledoc[i].x
 
+                    leg = self.googledoc[i].LOCATION
+
                 }
 
-                //console.log(self.googledoc[i].LOCATION)
+                console.log(`Current stage of the walk: ${leg}`)
 
                 break
             }
