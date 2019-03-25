@@ -19,8 +19,6 @@ export class Coastal {
 
 		var self = this
 
-        console.log("Ready player one")
-
         this.toolbelt = new Toolbelt()
 
         this.googledoc = data
@@ -45,32 +43,94 @@ export class Coastal {
 
         this.walk = turf.lineString(walk.features[0].geometry.coordinates)
 
-        this.start = turf.point([151.2737502, -33.893446])
+        this.start = turf.point([151.27439227079734, -33.89364721233857])
 
-        this.total = turf.length(self.walk, { units: 'kilometers'} )
+        this.total = 76.18318543466248 //turf.length(self.walk, { units: 'kilometers'} )
 
         this.youTubePlayerInitiated = false
 
-        this.googledoc.forEach(function(value, index) {
-            value.id = index
-            value.x = self.toolbelt.temporalToSeconds(value.START)
-            value.y = self.toolbelt.temporalToSeconds(value.END)
-            value.LATITUDE = +value.LATITUDE
-            value.LONGITUDE = +value.LONGITUDE
+        this.waypoints = this.googledoc.filter(function(value, index) {
+
+            return value.EDITORIAL != ""
 
         })
+
+        this.bitrate = [{
+            "directory" : "gear1",
+            "bitrate":200,
+            "width":416,
+            "height":234
+        },{
+            "directory" : "gear4",
+            "bitrate":1200,
+            "width":640,
+            "height":540
+        },{
+            "directory" : "gear5",
+            "bitrate":1800,
+            "width":960,
+            "height":540
+        },{
+            "directory" : "gear7",
+            "bitrate":4500,
+            "width":1280,
+            "height":720
+        },{
+            "directory" : "gear9",
+            "bitrate":7995,
+            "width":1920,
+            "height":1080
+        }]
+
+        /*
+        {
+        "directory" : "gear8",
+        "bitrate":6500,
+        "width":1280,
+        "height":720
+        },{
+        "directory" : "gear6",
+        "bitrate":2500,
+        "width":960,
+        "height":540
+        },{
+        "directory" : "gear2",
+        "bitrate":480,
+        "width":416,
+        "height":270
+        },{
+        "directory" : "gear3",
+        "bitrate":640,
+        "width":416,
+        "height":360
+        }
+        */
+
+        var i = 0;
+
+        self.directory = "gear9"
+
+        while (self.bitrate[i].width < self.screenWidth && i < self.bitrate.length) {
+
+          self.directory = self.bitrate[i].directory
+
+          i++;
+
+        }
 
         this.database = {
 
             blurb: "Drag the map marker to a point on the route to play the video at that point or take the tour below.",
 
-            weypoints: self.googledoc
+            waypoints: self.waypoints,
+
+            directory: self.directory
             
         }
 
         this.video = document.getElementById('video');
 
-        this.videoPlayer = new videoPlayer(self.video, self.path, self.screenWidth, self.isMobile)
+        this.videoPlayer = new videoPlayer(self.video, self.path, self.directory, self.screenWidth, self.isMobile)
 
         this.videoPlayer.init().then( (data) => {
 
@@ -83,8 +143,6 @@ export class Coastal {
     setupVideo() {
 
         var self = this
-
-        console.log("Initiated video setup")
 
         this.video.play()
 
@@ -106,22 +164,29 @@ export class Coastal {
             template: template,
         })
 
-        this.ractive.on( 'close', function ( context ) {
+        this.ractive.on( 'panel', function ( context ) {
 
+            var sidebar = document.getElementById("sidebar");
+
+            sidebar.classList.toggle("hidebar");
 
         });
 
         this.ractive.on( 'social', function ( context, channel ) {
 
-            var title = "The Bondi to Manly walk" ;
+            var title = ""
 
-            var message = "This interactive tells the stories that have long been kept out of our history books. It shows evidence of mass killings from 1788 until 1927: a sustained and systematic process of conflict and expansion"
+            var shareURL = ""
 
-            var fbImg = "https://i.guim.co.uk/img/media/c87aa28f1a03e77c01e6b9ad30a6ed020fad07f1/0_0_2000_1200/master/2000.jpg?width=1200&height=630&quality=85&auto=format&fit=crop&overlay-align=bottom%2Cleft&overlay-width=100p&overlay-base64=L2ltZy9zdGF0aWMvb3ZlcmxheXMvdGctZGVmYXVsdC5wbmc&s=7cdd30f3def215679560b5fb119570dd";
+            var fbImg = ""
 
-            // title, shareURL, fbImg, twImg, hashTag, FBmessage=''
+            var twImg = ""
 
-            let sharegeneral = share(title, "https://www.theguardian.com/australia-news/ng-interactive/2019/mar/04/massacre-map-australia-the-killing-times-frontier-wars", fbImg, '', '#KillingTimes', message);
+            var twHash = ""
+
+            var message = ""
+
+            let sharegeneral = share(title, shareURL, fbImg, twImg, twHash, message);
 
             sharegeneral(channel);
 
@@ -130,8 +195,6 @@ export class Coastal {
         this.ractive.on('play', function(context, lat, lng, secs, ends, editorial) {
 
             self.youTubePlayer.seekTo(secs, true)
-
-            console.log(lat, lng)
 
             self.playhead.setLatLng([lat, lng], {
 
@@ -146,8 +209,6 @@ export class Coastal {
         })
 
         this.createPlayer()
-
-
 
     }
 
@@ -173,9 +234,19 @@ export class Coastal {
                 'controls': 0,
                 'rel': 0,
                 'showinfo': 0,
+                'loop': 1,
                 'modestbranding': 1,
-                'playsinline': 1
-            },
+                'playsinline': 1,
+                'start': 0
+            }
+        });
+
+        self.youTubePlayer.on('ready', event => {
+
+            event.target.mute();
+
+            self.youTubePlayer.seekTo(0)
+
         });
         
         self.youTubePlayer.on('stateChange', event => {
@@ -208,7 +279,11 @@ export class Coastal {
         });
 
         self.youTubePlayer
-            .loadVideoById(self.url)
+            .loadVideoById({
+                'videoId': self.url,
+                'startSeconds': 0,
+                'suggestedQuality': 'large'
+           })
             .then(() => {
 
                 self.initMap()
@@ -234,11 +309,17 @@ export class Coastal {
             zoomAnimation: false
         })
 
+        /* Nice leaflet canvas overlay worth checking out
+        http://bl.ocks.org/Sumbera/11114288
+        */
+
+        L.tileLayer("http://{s}.sm.mapstack.stamen.com/(toner-lite,$fff[difference],$fff[@23],$fff[hsl-saturation@20])/{z}/{x}/{y}.png").addTo(self.map);
+
         self.route = L.geoJson(walk, {
             style: {
                 weight: 1,
                 opacity: 1,
-                color: 'black',
+                color: '#ef0bd7',
                 fillOpacity: 1,
             }
         }).addTo(self.map);
@@ -252,8 +333,6 @@ export class Coastal {
         self.route.on('click', function(ev) {
 
           var latlng = self.map.mouseEventToLatLng(ev.originalEvent);
-
-          console.log(latlng.lat + ', ' + latlng.lng);
 
         });
 
@@ -285,19 +364,9 @@ export class Coastal {
 
         self.playhead.on('dragend', function(e) {
 
-            let position = self.playhead.getLatLng();
+            let coordinates = self.playhead.getLatLng();
 
-            let updated = self.nearestPointOnLine(position)
-
-            self.playhead.setLatLng([updated[1],updated[0]], {
-
-                draggable: true
-
-            })
-
-            self.calculatePlayhead(updated[1], updated[0])
-
-            console.log("Play video at nearest point on the walk")
+            self.calculatePosition(coordinates)
 
         });
 
@@ -315,72 +384,89 @@ export class Coastal {
 
         });
 
-        console.log("Map initiated")
-
     }
 
-    nearestPointOnLine(latlng) {
+    calculatePosition(coordinates) {
 
         var self = this
 
-        var pt = turf.point([ latlng.lng, latlng.lat ]);
+        var extent = self.nearestPointOnLine(self.walk, [coordinates.lng, coordinates.lat]).geometry.coordinates
 
-        var nearest = turf.nearestPointOnLine( self.walk, pt, { units: 'kilometers' } );
+        var point = self.getPoint(extent)
 
-        return nearest.geometry.coordinates
+        var stage = self.sliceTrack(self.start, point, self.walk)
 
-    }
+        var distance = self.calculateDistance(stage)
 
-    calculatePlayhead(lat, lng) {
+        var longitudeLatitude = point.geometry.coordinates
 
-        var self = this
+        for (var i = 0; i < self.googledoc.length; i++) {
 
-        //https://stackoverflow.com/questions/41668577/distance-between-two-points-over-a-path-with-turf-js
+            if (self.googledoc[i].distance_from_start > distance) {
 
-        /*
-        Slice the line using your two points using turf.lineSlice. 
-        This will return a new line which consists of just the sections on the line between your two points.
-        Next you can use turf.lineDistance to calculate the distance of that sliced line.
-        */
-        
-        var stop = turf.point([lng, lat]);
-        var sliced = turf.lineSlice(self.start, stop, self.walk);
-        var length = turf.length(sliced, { units: 'kilometers'} );
-        var pecentage = 100 / self.total * length
-        var duration = 52935 // Length of video in seconds
-        var playhead = Math.floor(duration / 100 * pecentage)
-        console.log(pecentage + '% | ' + length + ' | ' + self.total + ' | ' + playhead)
+                var stage_distance = self.googledoc[i].stage_distance
+                var distance_from_start = (i>0) ? self.googledoc[i-1].distance_from_start : 0 ;
+                var video_start = (i>0) ? self.googledoc[i-1].x : 0 ; // video start
+                var duration = self.googledoc[i].duration // video duration
+                var pecentage = 100 / stage_distance * ( distance - distance_from_start )
+                var playhead = Math.floor(duration / 100 * pecentage) + video_start
+
+                // If the user has selected a deadzone skip to the next waypoint
+                if (self.googledoc[i].SKIP) {
+
+                    distance = self.googledoc[i].distance_from_start
+
+                    longitudeLatitude = self.googledoc[i].intersection
+
+                    playhead = self.googledoc[i].x
+
+                }
+
+                //console.log(self.googledoc[i].LOCATION)
+
+                break
+            }
+
+        }
+
+        self.playhead.setLatLng([longitudeLatitude[1],longitudeLatitude[0]], {
+
+            draggable: true
+
+        })
+
 
         self.youTubePlayer.seekTo(playhead, true)
 
     }
 
-    viewporter() {
+    getPoint(lnglat) {
 
-        var self = this
-
-        var mapheight = self.screenHeight
-
-        if (self.isMobile || window.location.origin === "file://" || window.location.origin === null) {
-
-            if (self.screenWidth > self.screenHeight) {
-
-                mapheight = self.screenWidth / 2
-
-            } else {
-
-                mapheight = self.screenWidth
-            }
-
-        }
-
-        return mapheight
+        return turf.point(lnglat)
 
     }
 
-    screenTest() {
+    getTrack(coordinates) {
 
-        return (window.innerWidth < 740) ? true : false ;
+        return turf.lineString(coordinates)
+
+    }
+
+    calculateDistance(track) {
+
+        return turf.length(track, { units: 'kilometers'} )
+
+    }
+
+    sliceTrack(start, stop, total) {
+
+        return turf.lineSlice(start, stop, total);
+
+    }
+
+    nearestPointOnLine(track, coordinates) {
+
+        return turf.nearestPointOnLine( track, coordinates, { units: 'kilometers' } );
 
     }
 
@@ -393,8 +479,6 @@ export class Coastal {
             clearTimeout(document.body.data)
 
             document.body.data = setTimeout( function() { 
-
-                console.log("Resized")
 
                 self.screenWidth = document.documentElement.clientWidth
 
@@ -486,8 +570,6 @@ export class Coastal {
                 // Intro video
                 if (!self.video.paused) {
 
-                    console.log("Paused intro video")
-
                     self.video.pause()
 
                 }
@@ -504,8 +586,6 @@ export class Coastal {
 
                 // You tube video
                 if (self.status==1) {
-
-                    console.log("Paused YouTube video")
 
                     self.youTubePlayer.pauseVideo();
 

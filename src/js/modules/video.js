@@ -2,7 +2,7 @@ import Hls from 'hls.js'
 
 export class videoPlayer {
 
-    constructor(element, path, width=480, isMobile) {
+    constructor(element, path, directory, width=480, isMobile) {
 
         var self = this
 
@@ -10,11 +10,11 @@ export class videoPlayer {
 
         this.path = path
 
+        this.directory = directory
+
         this.width = width
 
         this.isMobile = isMobile
-
-        this.startLevel = this.getHlsLevel(self.width)
 
         this.vidType = this.checker()
 
@@ -28,21 +28,12 @@ export class videoPlayer {
 
             if (self.vidType.src === '.m3u8') {
 
-                /*
-                1 416
-                2 480
-                3 640
-                5 960
-                7 1280
-                9 1920
-                */
-
-                var hls = new Hls( { autoStartLoad : true } );
+                var hls = new Hls( { autoStartLoad : true, muted : true } );
 
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MEDIA_ATTACHED, function () {
 
-                    hls.loadSource( `${self.path}/hyperlapse/index.m3u8` );
+                    hls.loadSource( `${self.path}/hyperlapse/${self.directory}/prog_index.m3u8` );
 
                     resolve(true); 
 
@@ -50,10 +41,9 @@ export class videoPlayer {
 
             } else {
 
-                let dir = self.getBestVideo(width)
-
                 self.element.src = `${self.path}/hyperlapse${self.vidType.src}`;
                 self.element.type = self.vidType.type;
+                self.element.muted = true;
                 //self.element.poster = `${self.path}/hyperlapse.jpg`
 
                 resolve(true); 
@@ -95,24 +85,6 @@ export class videoPlayer {
         }
 
         return  attributes
-
-    }
-
-    getHlsLevel(width) {
-
-        return (width < 416) ? 1 :
-            (width < 480) ? 2 :
-            (width < 640) ? 3 :
-            (width < 960) ? 5 :
-            (width < 1280) ? 7 : 9 ;
-
-    }
-
-    getBestVideo(width) {
-
-        return (width < 640) ? 320 :
-            (width < 1024) ? 640 :
-            (width < 1420) ? 1024 : 1920 ;
 
     }
 

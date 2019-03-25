@@ -11,7 +11,9 @@
 			</div>
 		</div>
 
-		<div class="sidebar_container">
+		<div id="sidebar" class="sidebar_container">
+
+			<div id="close" on-tap="['panel']"></div>
 
 			<div id="map"></div>
 
@@ -19,7 +21,7 @@
 
 			<div class="sidebar_navigation_container">
 				<ul>
-                {{#each weypoints}}
+                {{#each waypoints}}
 					<li on-tap="['play', LATITUDE, LONGITUDE, x, y, EDITORIAL]">{{LOCATION}}</li>
                 {{/each}}
 				</ul>
