@@ -5,26 +5,61 @@
 		<div class="walk_container">
 
 			<div class="auto-resizable-iframe">
+
 			  <div>
-			    <div id="walk_video"></div>
+
+			    <div id="walk_video">
+			    	{{#if isDesktop}}{{else}}<video id="video_walk" playsinline muted></video>{{/if}}
+			    </div>
+
 			  </div>
+
 			</div>
+
+			<div id="overlay" class="youtube_overlay"></div>
+
 		</div>
 
-		<div id="sidebar" class="sidebar_container">
+		<div id="sidebar" class="sidebar_container_left" style="visibility: {{#if initiated}}visible{{else}}hidden{{/if}}">
 
 			<div id="close" on-tap="['panel']"></div>
 
-			<div id="map"></div>
+			<div class="sidebar_editorial_hero_image">{{#if isDesktop}}{{#if image}}<img src="<%= path %>/assets/imgs/panel/{{image}}.jpg">{{/if}}{{/if}}</div>
 
 			<div class="sidebar_editorial_container">{{blurb}}</div>
 
 			<div class="sidebar_navigation_container">
+
 				<ul>
+
                 {{#each waypoints}}
-					<li on-tap="['play', LATITUDE, LONGITUDE, x, y, EDITORIAL]">{{LOCATION}}</li>
+
+					<li class="waypoint_container" on-tap="['play', LATITUDE, LONGITUDE, x, y, EDITORIAL, IMAGE]">
+
+					<div class="waypoint_image">
+
+						<img src="<%= path %>/assets/imgs/thumbnails/{{IMAGE}}.png">
+
+					</div>
+
+					<span>{{LOCATION}}</span>
+
+					</li>
+					
                 {{/each}}
+
 				</ul>
+
+			</div>
+
+		</div>
+
+		<div class="sidebar_container_right" style="visibility: {{#if initiated}}visible{{else}}hidden{{/if}}">
+
+			<div class="map_container">
+
+				<div id="map"></div>
+
 			</div>
 
 		</div>

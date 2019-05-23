@@ -74,11 +74,11 @@ export class videoPlayer {
 
             if (sUsrAg.indexOf("Opera") > -1) {
 
-                //attributes = { src: '.ogv', type: 'video/ogg' }
+                attributes = { src: '.ogv', type: 'video/ogg' }
 
             } else if (sUsrAg.indexOf("Firefox") > -1) {
 
-                //attributes = { src: '.ogv', type: 'video/ogg' }
+                attributes = { src: '.ogv', type: 'video/ogg' }
 
             }
 

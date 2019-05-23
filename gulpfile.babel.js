@@ -142,7 +142,8 @@ gulp.task('build:css', () => {
 
 gulp.task('build:js.main', buildJS('main.js'));
 gulp.task('build:js.app', buildJS('app.js'));
-gulp.task('build:js', ['build:js.main', 'build:js.app']);
+gulp.task('build:js.lite', buildJS('lite.js'));
+gulp.task('build:js', ['build:js.main', 'build:js.app', 'build:js.lite']);
 
 gulp.task('build:html', cb => {
     try {
@@ -235,6 +236,10 @@ gulp.task('default', ['local'], () => {
     });
 
     gulp.watch(['src/js/app.js'], ['build:js']).on('change', evt => {
+        gutil.log(gutil.colors.yellow(`${evt.path} was ${evt.type}`));
+    });
+
+    gulp.watch(['src/js/lite.js'], ['build:js']).on('change', evt => {
         gutil.log(gutil.colors.yellow(`${evt.path} was ${evt.type}`));
     });
 

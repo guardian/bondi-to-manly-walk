@@ -1,10 +1,13 @@
-import xr from 'xr';
+import loadJson from '../components/load-json/'
 import { Coastal } from './modules/coastal'
 
-xr.get('<%= path %>/assets/waypoints.json?t=' + new Date().getTime()).then((resp) => {
+var waypoints = document.getElementById("waypoints");
 
-	new Coastal(resp.data)
+waypoints.classList.add("isDesktop");
 
-});
-
+loadJson('<%= path %>/assets/waypoints.json?t=' + new Date().getTime())
+	.then((resp) => {
+		console.log("Full version")
+		new Coastal(resp)
+	})
 

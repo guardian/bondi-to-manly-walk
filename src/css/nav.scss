@@ -71,13 +71,14 @@
 		position: relative;
 		width: 60px;
 		height: 34px;
+		filter: grayscale(100%);
 
 		@include mq($until: mobileLandscape) {
-			display: none;
+			display: inline-block;
 		}
 
 		@include mq($from: mobileLandscape, $until: tablet) {
-			display: none;
+			display: inline-block;
 		}
 
 		@include mq($from: tablet, $until: desktop) {
@@ -88,6 +89,10 @@
 			display: inline-block;
 		}
 
+	}
+
+	.ios-hide {
+		display: none;
 	}
 
 	.switch input {

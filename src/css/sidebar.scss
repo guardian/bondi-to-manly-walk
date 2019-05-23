@@ -9,12 +9,32 @@
 	display: inline-block;
 }
 
-.sidebar_container {
-	
+.sidebar_container_right {
+
+	box-sizing: border-box;
+	z-index: 10;
+	padding: 20px;
+
+	@include mq($until: desktop) {
+		display: nonel
+	}
+
+	@include mq($from: desktop) {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		bottom: 0px;
+		width: 420px;
+	}
+
+} 
+
+.sidebar_container_left {
+
 	box-sizing: border-box;
 	padding: 20px;
 	z-index: 10;
-	animation: slideIn .5s ease-in-out both;
+	
 
 	@include mq($until: mobileLandscape) {
 		width: 100%;
@@ -34,13 +54,15 @@
 		background-color: black;
 	}
 
+
 	@include mq($from: desktop) {
 		position: absolute;
 		top: 0px;
-		right: 0px;
+		left: 0px;
 		bottom: 0px;
 		width: 420px;
-		background: rgba(88, 88, 88, 0.5);
+		background: rgba(88, 88, 88, 0.8);
+		animation: slideIn .5s ease-in-out both;
 	}
 
 }
@@ -50,29 +72,33 @@
 }
 
 @keyframes slideIn {
-  0%   { right: -420px; }
-  100% { right: 0; }
+  0%   { left: -420px; }
+  100% { left: 0; }
 }
 
 @keyframes slideOut {
-  0%   { right: 0; }
-  100% { right: -420px; }
+  0%   { left: 0; }
+  100% { left: -420px; }
 }
 
 #close {
-	width: 30px;
+	
+	width: 40px;
 	height: 40px;
-	border-radius: 20px 0px 0px 20px;
-	background-color: red;
+	border-radius: 0px 20px 20px 0px;
 	cursor: pointer;
-	margin-left: -50px;
-	float: left;
-	background: rgba(88, 88, 88, 0.5);
+	background-color: #ffb73d;
+	position: absolute;
+	left: 420px;
+	top: 20px;
+	z-index: 1000;
+
 
 	@include mq($until: desktop) {
 		display: none;
 	}
 }
+
 
 .sidebar_heading {
 	width: 100%;
@@ -80,7 +106,7 @@
 	margin-bottom: 20px;
 	font-family: "GuardianTitlepiece", "Guardian Titlepiece","Guardian Headline Full","Guardian Headline","Guardian Egyptian Web",Georgia,serif;
 	font-weight: 700;
-	color: #ef0bd7;
+	color: #ffb73d;
 	line-height: 28px;
 	text-align: left;
 	font-size: 28px;
@@ -105,8 +131,7 @@
 	}
 
 	@include mq($from: tablet, $until: desktop) {
-		width: 50%;
-		float: right;
+		width: 100%;
 	}
 
 	@include mq($from: desktop) {
@@ -121,16 +146,16 @@
 	
 	@include mq($until: mobileLandscape) {
 		width: 100%;
-		
 	}
 
 	@include mq($from: mobileLandscape, $until: tablet) {
 		width: 100%;
+		column-count: 2;
 	}
 
 	@include mq($from: tablet, $until: desktop) {
-		width: 50%;
-		float: right;
+		width: 100%;
+		column-count: 2;
 	}
 
 	@include mq($from: desktop) {
@@ -141,6 +166,10 @@
 
 }
 
+.sidebar_editorial_hero_image, .sidebar_editorial_hero_image img {
+	width: 100%;
+}
+
 .sidebar_navigation_container ul {
 	list-style: none; /* Remove list bullets */
 	padding: 0;
@@ -149,16 +178,43 @@
 
 .sidebar_navigation_container li {
 	width: 100%;
+	display: inline-block;
 	font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
-	line-height: 14px;
+	line-height: 16px;
 	font-size: 14px;
 	border-top: 1px dotted white;
 	cursor: pointer;
 	box-sizing: border-box;
 	padding: 6px;
+	line-height: 50px;
+	height: 65px;
 }
 
-.sidebar_navigation_container li:nth-child(8) {
+
+.sidebar_navigation_container li span {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: normal;
+	width: 100px;
+	color: #FFB73E;
+}
+
+
+.waypoint_image {
+
+	float: left;
+	margin-right: 10px;
+	width: 50px;
+	height: 50px;
+
+}
+
+.waypoint_image img {
+	width: 100%;
+}
+
+/*
+.sidebar_navigation_container li:nth-child(7) {
 
 	@include mq($from: desktop) {
 		margin-top: -6px;
@@ -166,13 +222,14 @@
 	
 }
 
-.sidebar_navigation_container li:nth-child(13) {
+.sidebar_navigation_container li:nth-child(14) {
 	border-bottom: 1px dotted white;
 }
+*/
 
 
 .sidebar_button {
-	background-color: #ef0bd7;
+	background-color: #ffb73d;
 	color: white;
 	display: inline-block;
 	font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
@@ -186,39 +243,35 @@
 	font-weight: 700;
 }
 
+
+.map_container {
+	
+	@include mq($until: desktop) {
+		display: none;
+	}
+
+	@include mq($from: desktop) {
+		width: 100%;	
+		display: inline-block;
+	}
+
+}
+
+
 #map {
-	position: relative;
-	height: 0px;
-    z-index: 9;
-    margin-bottom: 20px;
-    border: 1px solid white;
 
-	@include mq($until: mobileLandscape) {
-		width: 100%;
-		padding-bottom: 100%;
-		background-color: darkgrey;
-	}
-
-	@include mq($from: mobileLandscape, $until: tablet) {
-		width: 50%;
-		margin-left: 25%;
-		padding-bottom: 50%;
-		background-color: lightgrey;
-	}
-
-	@include mq($from: tablet, $until: desktop) {
-		width: calc(50% - 20px);
-		padding-bottom: 50%;
-		float: left;
-		background-color: lightgrey;
+	@include mq($until: desktop) {
+		display: none;
 	}
 
 	@include mq($from: desktop) {
 		width: 100%;
 		padding-bottom: 100%;
+		height: 0px;
 		background-color: lightgrey;
 		border-radius: 50% 0 50% 50% ;
-		
+		border: 1px solid white;
+		position: relative;
 	}
 
 }
@@ -241,4 +294,36 @@
   width: 100%;
   height: 100%;
 }
+
+
+
+
+.isDesktop .titles {
+
+	.youtube_overlay {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(56,56,56, 1);
+
+		@include mq($until: desktop) {
+			display: none;
+		}
+
+
+	}
+
+
+}
+
+.device.video-wrapper {
+
+	.youtube_overlay {
+		display: none;
+	}
+
+}
+
 

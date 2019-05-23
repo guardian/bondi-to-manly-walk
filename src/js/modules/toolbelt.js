@@ -327,6 +327,15 @@ export class Toolbelt {
         return "#" + this.componentToHex(r) + this.componentToHex(g) + this.componentToHex(b);
     }
 
+    alpharizer(element, level) {
+
+        var current_color = getComputedStyle(element).getPropertyValue("background-color");
+        var match = /rgba?\((\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(,\s*\d+[\.\d+]*)*\)/g.exec(current_color)
+        level > 1 ? (level / 100) : level;
+        element.style.backgroundColor = "rgba(" + [match[1],match[2],match[3],level].join(',') +")";
+
+    }
+
     multiples(arr, multiplyer) {
 
         let array = []

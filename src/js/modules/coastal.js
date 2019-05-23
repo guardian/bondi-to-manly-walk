@@ -1,17 +1,12 @@
 import { Toolbelt } from '../modules/toolbelt'
 import template from '../../templates/template.html'
-import { $, $$, round, numberWithCommas, wait, getDimensions } from '../modules/util'
 import L from 'leaflet' // Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
-import share from '../modules/share'
 import walk from '../modules/walk.json'
-import * as turf from '@turf/turf'
+//import * as turf from '@turf/turf'
+import turf from './turfImporter';
 import YouTubePlayer from 'youtube-player';
-import { videoPlayer } from '../modules/video'
 import Ractive from 'ractive'
 import ractiveTap from 'ractive-events-tap'
-//Ractive.DEBUG = false;
-//https://www.youtube.com/watch?v=DFN3iy8y9rQ
-//vimeo.com/user7712081/download/317861443/32650fa416
 
 export class Coastal {
 
@@ -27,19 +22,17 @@ export class Coastal {
 
         this.screenHeight = document.documentElement.clientHeight
 
-        this.path = 'https://gdn-cdn.s3.amazonaws.com/2019/03/bondi-to-manly'
-
-        this.isMobile = this.toolbelt.mobileCheck()
+        this.default = "Select a popular Sydney location from the list, or expore the walk by dragging the map marker along the route. For privacy reasons small parts of the route have been skipped."
 
         this.latitude = -33.841715
 
         this.longitude = 150
 
-        this.zoom = (self.screenWidth < 600) ? 11 : (self.screenWidth < 800) ? 11 : 11 ;
+        this.zoom = 11
 
         this.map = null
 
-        this.url = 'iJySPs2ayPg'
+        this.url = 'wZGLq4CmmeA'
 
         this.walk = turf.lineString(walk.features[0].geometry.coordinates)
 
@@ -82,73 +75,40 @@ export class Coastal {
             "height":1080
         }]
 
-        /*
-        {
-        "directory" : "gear8",
-        "bitrate":6500,
-        "width":1280,
-        "height":720
-        },{
-        "directory" : "gear6",
-        "bitrate":2500,
-        "width":960,
-        "height":540
-        },{
-        "directory" : "gear2",
-        "bitrate":480,
-        "width":416,
-        "height":270
-        },{
-        "directory" : "gear3",
-        "bitrate":640,
-        "width":416,
-        "height":360
-        }
-        */
-
         var i = 0;
 
         self.directory = "gear9"
+
+        self.screen_res = "416"
 
         while (self.bitrate[i].width < self.screenWidth && i < self.bitrate.length) {
 
           self.directory = self.bitrate[i].directory
 
+          self.screen_res = self.bitrate[i].width
+
           i++;
 
         }
 
+        console.log(self.screen_res)
+
         this.database = {
 
-            blurb: "Drag the map marker along the route or click on one of the destionations below.",
+            blurb: self.default,
 
             waypoints: self.waypoints,
 
-            directory: self.directory
-            
+            directory: self.directory,
+
+            initiated: true,
+
+            isDesktop: true
         }
 
-        this.video = document.getElementById('video');
-
-        this.videoPlayer = new videoPlayer(self.video, self.path, self.directory, self.screenWidth, self.isMobile)
-
-        this.videoPlayer.init().then( (data) => {
-
-            self.setupVideo()
-
-        })
+        this.ractivate()
 
 	}
-
-    setupVideo() {
-
-        var self = this
-
-        this.video.play()
-
-        self.ractivate()
-
-    }
 
     ractivate() {
 
@@ -169,31 +129,21 @@ export class Coastal {
 
             sidebar.classList.toggle("hidebar");
 
-        });
+            var map = document.getElementById("map");
 
-        this.ractive.on( 'social', function ( context, channel ) {
-
-            var title = ""
-
-            var shareURL = ""
-
-            var fbImg = ""
-
-            var twImg = ""
-
-            var twHash = ""
-
-            var message = ""
-
-            let sharegeneral = share(title, shareURL, fbImg, twImg, twHash, message);
-
-            sharegeneral(channel);
+            map.style.visibility = map.style.visibility == "hidden" ? "visible" : "hidden";
 
         });
 
-        this.ractive.on('play', function(context, lat, lng, secs, ends, editorial) {
+        this.ractive.on('play', function(context, lat, lng, secs, ends, editorial, image) {
 
             self.youTubePlayer.seekTo(secs, true)
+
+            if (self.database.iOS) {
+
+                self.youTubePlayer.playVideo();
+
+            }
 
             self.playhead.setLatLng([lat, lng], {
 
@@ -203,7 +153,11 @@ export class Coastal {
 
             self.database.blurb = editorial
 
+            self.database.image = image
+
             self.ractive.set('blurb', self.database.blurb)
+
+            self.ractive.set('image', self.database.image)
 
         })
 
@@ -236,7 +190,8 @@ export class Coastal {
                 'loop': 1,
                 'modestbranding': 1,
                 'playsinline': 1,
-                'start': 0
+                'start': 0,
+                'enablejsapi':1
             }
         });
 
@@ -244,9 +199,15 @@ export class Coastal {
 
             event.target.mute();
 
+            document.getElementById("walk_video").setAttribute("webkit-playsinline", true);
+
+            document.getElementById("walk_video").setAttribute("playsinline", true);
+
             self.youTubePlayer.seekTo(0)
 
         });
+
+        var overlay = document.getElementById('overlay');
         
         self.youTubePlayer.on('stateChange', event => {
 
@@ -260,13 +221,19 @@ export class Coastal {
                 console.log('ended');
                 break;
               case 1:
-                console.log('playing');
+                console.log('play');
+                if (!self.database.initiated) {
+                    self.database.initiated = true
+                    self.ractive.set('initiated', self.database.initiated)
+                }
+                self.toolbelt.alpharizer(overlay,0)
                 break;
               case 2:
+                self.toolbelt.alpharizer(overlay,100)
                 console.log('paused');
                 break;
               case 3:
-                console.log('buffering');
+                 console.log('buffering');
                 break;
               case 5:
                 console.log('video cued');
@@ -277,17 +244,19 @@ export class Coastal {
 
         });
 
+        // https://developers.google.com/youtube/iframe_api_reference#setPlaybackQuality
+
         self.youTubePlayer
             .loadVideoById({
                 'videoId': self.url,
                 'startSeconds': 0,
-                'suggestedQuality': 'large'
+                'suggestedQuality': (self.database.isApp || self.database.isMobile) ? 'small' : 'large' ,
            })
             .then(() => {
 
                 self.initMap()
 
-                self.renderLoop()            
+                self.renderLoop()
 
             });
 
@@ -318,7 +287,7 @@ export class Coastal {
             style: {
                 weight: 1,
                 opacity: 1,
-                color: '#ef0bd7',
+                color: '#ffb73d',
                 fillOpacity: 1,
             }
         }).addTo(self.map);
@@ -357,7 +326,7 @@ export class Coastal {
 
         self.playhead.on('dragstart', function(e) {
 
-            console.log("Pause any currently playing videos")
+            //console.log("Pause any currently playing videos")
 
         });
 
@@ -370,16 +339,15 @@ export class Coastal {
         });
 
         // Set the circle radius depending on zoom level
-
         self.map.on('zoomend', function(e) {
 
-            console.log("You finished zooming")
+            //console.log("You finished zooming")
 
         });
 
         self.map.on('click', function(e) {
 
-            console.log("You clicked on the map")
+            //console.log("You clicked on the map")
 
         });
 
@@ -409,7 +377,7 @@ export class Coastal {
                 var duration = self.googledoc[i].duration // video duration
                 var pecentage = 100 / stage_distance * ( distance - distance_from_start )
                 var playhead = Math.floor(duration / 100 * pecentage) + video_start
-                var leg = (i>0) ? self.googledoc[i-1].LOCATION : "Bondi" ;
+                var leg = (i===0) ? `${self.googledoc[0].LOCATION} to ${self.googledoc[1].LOCATION}` : `${self.googledoc[i-1].LOCATION} to ${self.googledoc[i].LOCATION}` ;
 
                 // If the user has selected a deadzone skip to the next waypoint
                 if (self.googledoc[i].SKIP) {
@@ -420,11 +388,9 @@ export class Coastal {
 
                     playhead = self.googledoc[i].x
 
-                    leg = self.googledoc[i].LOCATION
+                    leg = `Skipped deadzone: ${self.googledoc[i].LOCATION} to ${self.googledoc[i+1].LOCATION}`
 
                 }
-
-                console.log(`Current stage of the walk: ${leg}`)
 
                 break
             }
@@ -437,8 +403,21 @@ export class Coastal {
 
         })
 
+        self.database.blurb = self.default
+
+        self.ractive.set('blurb', self.database.blurb)
+
+        var message =  `Current stage: ${leg}\nLatitude: ${longitudeLatitude[1]}\nLongitude: ${longitudeLatitude[0]}\nVideo: ${self.toolbelt.temporalFormat(playhead)}\nDistance from start: ${distance}\n----------------------------------\n\n`;
+
+        console.log(message);
 
         self.youTubePlayer.seekTo(playhead, true)
+
+        if (self.database.iOS) {
+
+            self.youTubePlayer.playVideo();
+
+        }
 
     }
 
@@ -508,7 +487,7 @@ export class Coastal {
 
         window.addEventListener("orientationchange", function() {
             
-            console.log("orientationchange")
+            //console.log("orientationchange")
             
         }, false);
 
