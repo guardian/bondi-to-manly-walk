@@ -4,6 +4,10 @@
 	
 	background-color: black;
 	color: white;
+	overflow: hidden;
+    position: relative;
+
+
 
 	.walk_container {
 		background-color: darkgrey;
@@ -102,7 +106,7 @@
 		width: 100%;
 	    font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
 	    margin-bottom: 20px;
-	    color: lightgrey;
+	    color: #FFB73E;
 	}
 
 	.video-skip-btn {
@@ -289,11 +293,11 @@
 		background-repeat: no-repeat;
 		background-position: 50% 50%;
 		background-size: 135px 135px;
-		z-index: 7;
+		z-index: 2000;
 		position: fixed;
 		background-color: black;
 		opacity: 1;
-		background-image: url("https://interactive.guim.co.uk/embed/aus/2018/feb/mdb-multimedia/preloader/Webp.net-gifmaker.gif");
+		/*background-image: url("https://interactive.guim.co.uk/embed/aus/2018/feb/mdb-multimedia/preloader/Webp.net-gifmaker.gif");*/
 	}
 
 	.editorial {
@@ -409,4 +413,51 @@
 	margin: auto;
 	padding: 20px;
 	margin-top: 20px;
+}
+
+.svg_container {
+	position: absolute;
+	top: 0px;
+	width: 400px;
+	display: inline-block;
+	z-index: 1;
+
+	@include mq($until: leftCol) {
+		display: none;
+	}
+
+}
+
+#svg_container_left {
+	left: -200px;
+}
+
+#svg_container_right {
+	right: -200px;
+}
+
+
+#intro_container, .sixteen_by_nine, .video-wrapper, #app {
+	position: relative;
+	z-index: 2;
+}
+
+.pathway {
+	
+	stroke: #ffb73d;
+  
+}
+
+.dashed{
+	stroke: black;
+  	stroke-dasharray: 10,10;
+}
+
+#walk_video {
+	background-color: darkgrey;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 100px 100px;
+	opacity: 1;
+	background-image: url("<%= path %>/assets/imgs/preloader.gif");
 }

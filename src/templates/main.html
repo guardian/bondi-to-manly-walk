@@ -1,191 +1,230 @@
+<div id="waypoints" class="interactive">
 
-	
-	<div id="waypoints" class="interactive">
+	<div id="svg_container_left" class="svg_container"></div>
 
-		<div class="nav-wrap">
+	<div id="svg_container_right" class="svg_container"></div>
 
-			<div class="nav-label"></div>
+	<div id="nav-wrap" class="nav-wrap">
 
-			<div class="nav-bar" id="audio_mute_switch">
+		<div class="nav-label"></div>
 
-				<div class="audio-switch-box">
+		<div class="nav-bar" id="audio_mute_switch">
 
-					<label class="switch">
+			<div class="audio-switch-box">
 
-						<input id="audio-switch" type="checkbox">
+				<label class="switch">
 
-						<span class="slider round"></span>
+					<input id="audio-switch" type="checkbox">
 
-					</label>
+					<span class="slider round"></span>
 
-				</div>
-
-			</div>
-
-		</div>
-
-		<div id="intro_container">
-
-			<div class="sixteen_by_nine">
-
-				<div class="video-wrapper">
-
-					<video id="video" playsinline muted loop="true" autoplay>
-					   <source src="https://interactive.guim.co.uk/2019/03/bondi-to-manly/hyperlapse.mp4" type="video/mp4" media="all and (max-width: 768px)"> 
-					   <source src="https://interactive.guim.co.uk/2019/03/bondi-to-manly/hyperlapse.mp4" type="video/webm" media="all and (max-width: 768px)"> 
-					   <source src="https://interactive.guim.co.uk/2019/03/bondi-to-manly/hyperlapse.mp4" type="video/mp4" media="all and (max-width: 480px)"> 
-					   <source src="https://interactive.guim.co.uk/2019/03/bondi-to-manly/hyperlapse.webm" type="video/webm" media="all and (max-width: 480px)"> 
-					   <source src="https://interactive.guim.co.uk/2019/03/bondi-to-manly/hyperlapse.mp4" type="video/mp4"> 
-					   <source src="https://interactive.guim.co.uk/2019/03/bondi-to-manly/hyperlapse.webm" type="video/webm"> 
-					</video>
-
-				</div>
-
-			</div>
-
-			<div class="titles">
-
-				<h1><span>The Bondi to Manly:</span> <br>Sydney’s spectacular harbour walk</h1>
-
-				<h3>Follow the epic 80km coastal walk that links two of Australia’s favourite beaches and takes in
-				some of the most iconic landmarks Sydney has to offer.</h3>
-
-			</div>
-
-			<div class="video-skip-btn">
-
-				<span></span>
-
-			</div>
-
-		</div>
-
-		<div class="displayed">
-
-			<div class="editorial">
-
-				<div class="display">
-
-			        <div class="share-buttons">
-
-			            <div class="social_isolation">
-
-			                <button class="interactive-share" data-network="facebook"></button>
-
-			                <button class="interactive-share" data-network="twitter"></button>
-
-			            </div>
-
-			        </div>
-
-					<div class="bylines">
-
-						<a href='https://www.theguardian.com/profile/david-fanner'>David Fanner</a> and
-
-						<a href='https://www.theguardian.com/profile/andy-ball'>Andy Ball</a>
-
-					</div>
-
-					<p><span class="drop-cap"><span class="drop-cap__inner">W</span></span>inding around Sydney’s world-famous harbour, the Bondi-to-Manly is an epic coastal walk that links two of Australia’s favourite beaches and takes in some of the most iconic landmarks Sydney has to offer.</p>
-
-					<p>The Bondi-to-Manly is an 80km long coastal walk consisting of several shorter tracks that are interconnected by traversing pockets of suburbia. It passes an incredible 36 beaches and highlights key moments in Sydney's history, including its Indigenous heritage, the arrival of the First Fleet and the building of the Opera House and Harbour Bridge.</p>
-
-					<p>Using our interactive map, you can follow along every step of the 80km journey between the famous Sydney Heads.</p>
-
-				</div>
-
-			</div>
-
-		</div>
-
-		<div id="app" class="contained">
-			<div id="interactive_preloader"></div>
-		</div>
-
-
-		<div class="displayed">
-
-			<div class="editorial">
-
-				<div class="display">
-
-					<h2>Dave is gonna supply a headline</h2>
-
-					<p>My first tip, call it a hot tip, to those planning to walk the Bondi-to-Manly is not to do it during a heatwave.  I did, and walking in temperatures hovering between 32-37C with high humidity and little wind makes for a very sweaty experience...although the blue skies throughout look great on camera.</p>
-
-					<p>Long-distance urban walks like the 80km Bondi-to-Manly are pretty rare. The only other multi-day hike through built up areas I’ve experienced has been the Camino de Santiago in the north of Spain. The sense of spirituality (or at the least self-discovery) that defines the Camino is in less effect traipsing through some of Australia’s richest suburbs...but there is <a href="https://www.theguardian.com/travel/2017/nov/05/happy-isolation-hiking-the-ridges-of-the-larapinta-trail">something about committing to a long-distance hike</a> and leaving the day-to-day behind that clears the mind and there are stretches throughout the Bondi-to-Manly that are absolute magic.</p>
-
-					<p>I started my walk just after sunrise with my feet in the surf at the south end of Bondi Beach.</p>
-
-					<p>The iconic strip of sand holds a dear place in the Australian consciousness, currently on our screens we have Bondi Rescue, the Bondi Hipsters and a Bondi Vet, even Heath Ledger famously found the surf at Bondi irresistible in Two Hands.</p>
-
-
-					<div class="editorial_image" style="width:100%;margin-top: :20px;margin-bottom: 20px;">
-
-						<img src="<%= path %>/assets/imgs/THE_GAP.jpg" style="width:100%;">
-
-					</div>
-
-					<div class="editorial_caption">The cliffs</div>
-
-
-					<p>But it’s become so famous that it’s reached a strange place where it’s both underrated and overrated at the same time. Critics can’t seem to separate its popularity from its natural beauty. Arriving at the beach early and without the crowds to deal with, you’re afforded the space to appreciate such a natural wonder. The sand is fine and the beach is long, surfing and swimming are both highly enjoyable when the conditions are right.</p>
-
-					<p>But that was just the start, there isn’t a city in the world that has better, cleaner and clearer beaches than Sydney and over the Bondi-to-Manly walk there are a remarkable 36 other beaches or coves that you pass on your trip around the Harbour.  The only problem is you will want to stop and swim at every one of them. Bobbing up and down in the clear waters of Hayes Street Beach, it’s easy to forget you’re right in the middle of Australia’s biggest city.</p>
-
-					<p>Of course, clear water doesn’t necessarily mean clean water. <a href="https://www.theguardian.com/environment/video/2018/apr/16/welcome-to-australias-plastic-beach-video">The Guardian has documented elsewhere the depressing amount of plastic pollution</a> we have in the Harbour. But compared to other urban beaches around the globe, Sydney Harbour has no peer.</p>
-
-					<p>There is no real ‘path’ to follow, but finding your way is not hard.  If you cross two bridges and keep the ocean on your right you should eventually make it to Manly.  I divided the approximately 80km between Bondi and Manly into four days:</p>
-
-					<p><strong>Day one</strong> starts in Bondi and finishes at the old-timey pontoon beach of Redleaf, just west of Point Piper. Stunning sandstone cliffs plunge into the ocean at Diamond Bay and The Gap as you make your way around South Head. You will also pass Australia’s oldest lighthouse, the magnificent Macquarie Lighthouse at Dunbar Head. There are plenty of beautiful places to pull up for a swim like Shell Cove or the unsettlingly-named Shark Cove.</p>
-
-					<p><strong>Day two</strong> is the big day for iconic architecture as you get up close and personal with Australia’s two most famous man-made structures – the Opera House and Harbour Bridge. There is a palpable sense of ingenuity, creativity and audacity filling the Opera House’s gigantic ceramic sails as you walk in-between them that is still present 50 years after its completion. Surely, this is the pinnacle of modern expressionist architecture, ageless and magnificent.
-					</p>
-
-					<p>Crossing the Harbour Bridge on foot is a longer process that you might think. You need to make your way through Sydney’s old quarter, known as the Rocks, and then up three flights of stairs. It’s 10 minutes before you even reach the sandstone blocks that mark the bridge proper. Despite the high levels of fencing and security, it is a windy and thrilling 20 minute walk to the other side of the bridge, known locally as the ‘Coat Hanger’.</p>
-
-					<div class="editorial_image" style="width:100%;margin-top: :20px;margin-bottom: 20px;">
-
-						<img src="<%= path %>/assets/imgs/plank.jpg" style="width:100%;">
-
-					</div>
-
-					<div class="editorial_caption">It was lunch time in the woods</div>
-
-					<p>I started <strong>Day Three</strong> started at Taronga Zoo. (I skipped a bit from Cremorne Point to Taronga, but figure if you’ve seen one outrageously rich Eastern Sydney suburb, you’ve seen ‘em all.) The 21km (or so) covered today is probably the most well-established of all the days of the BtM, as many Sydneysiders cover the Taronga-to-Manly walk on a sunny weekend. The landscape is remarkably varied as you walk through dense bush around Middle Head, enjoy the promenade of Balmoral, Sydney's fancy Victorian-era beach, and step back thousands of years into the past while appreciating the Indigenous rock art at Grotto Point.</p>
-
-					<p><strong>Day Four</strong> is about tying together loose ends for the BtM completists. From Manly Beach you head out past Shelly Beach to North Head, but the hot walk up the exposed trails of North Head is worth it for the final view at Fairfax Lookout.  From here you can almost see the entire 80km journey laid out with new meaning in front of you.</p>
-
-					<h2>What to pack?</h2>
-
-					<p>One of the greatest aspects of the Bondi-to-Manly as a multi-day hike is that you don’t have to weigh yourself down with gigantic backpack. There are no real camping options available, so you will have to find accommodation each night. Living in Sydney, I caught a bus, train or ferry home at the end of each day’s hike, but smart hoteliers take note: if this walk takes off there are substantial profits to be made in branding yourself as part of the Bondi-to-Manly experience. </p>
-
-					<p>Keeping my pack as light as possible, I only brought a litre of water and relied on the numerous bubblers (water fountains) that dot the parks and paths I crossed to stay hydrated. I packed a couple of sandwiches each day but you could just as easily feed yourself at one of the hundreds of waterfront cafes, pubs or restaurants that line your path.</p>
-
-					<div class="editorial_image" style="width:100%;margin-top: :20px;margin-bottom: 20px;">
-
-						<img src="<%= path %>/assets/imgs/IMG-20190117-WA0000.jpg" style="width:100%;">
-
-					</div>
-
-					<div class="editorial_caption">In the bag</div>
-
-					<p>Cross two bridges and keep the ocean on your right…that’s really about all the navigation you’ll need, but take your phone just in case, the GPS may help you find your way through one of the tracts of suburbia you will have to traverse occasionally.</p>
-
-					<p>Whatever you do, don’t leave home without a broad-brimmed hat and lots of sunscreen. The Australian sun is unforgiving.</p>
-
-					<h2>Private beaches</h2>
-
-					<p>There are a bunch of places on the Harbour that – I imagine – are incredibly beautiful, but I can’t tell you for certain as they’re inaccessible to the average punter. Lady Martin’s Beach on Point Piper, large sections of Kirribilli, Kurraba, Darling Point to name a few, all close themselves off to the outside world for the private enjoyment of the multi-millionaires who’ve paid a fortune for their Harbour views and don’t particularly want to share it.</p>
-
-					<p>As national myths go, the idea of egalitarianism is one of our better ones. I’ve been rather successfully socially conditioned to believe we should be able to equally enjoy the natural wonders of this country, and the idea of private beaches flies directly in the face of what I feel is a big part of being Australian.</p>
-
-
-				</div>
+				</label>
 
 			</div>
 
 		</div>
 
 	</div>
+
+	<div id="intro_container">
+
+		<div class="sixteen_by_nine">
+
+			<div class="video-wrapper">
+
+				<video id="video" playsinline="true" muted loop="true" autoplay>
+				   	<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_1280.mp4" type="video/mp4" media="all and (max-width: 1280px)">
+				   	<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_960.mp4" type="video/mp4" media="all and (max-width: 960px)">
+				   	<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_640.mp4" type="video/mp4" media="all and (max-width: 640px)">		
+				   	<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_416.mp4" type="video/mp4" media="all and (max-width: 416px)"> 
+					<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_1920.mp4" type="video/mp4"> 
+
+
+				   	<!--source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/hyperlapse/hyperlapse_1280.mp4" type="video/mp4" media="all and (max-width: 1280px)">
+				   	<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/hyperlapse/hyperlapse_960.mp4" type="video/mp4" media="all and (max-width: 960px)">
+				   	<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/hyperlapse/hyperlapse_640.mp4" type="video/mp4" media="all and (max-width: 640px)">		
+				   	<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/hyperlapse/hyperlapse_416.mp4" type="video/mp4" media="all and (max-width: 416px)"> 
+					<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/hyperlapse/hyperlapse_1280.mp4" type="video/mp4"--> 
+				</video>
+
+			</div>
+
+		</div>
+
+		<div class="titles">
+
+			<h1><span>The Bondi to Manly:</span> <br>Sydney’s spectacular harbour walk</h1>
+
+			<h3>Follow the epic 80km coastal walk that links two of Australia’s favourite beaches and takes in
+			some of the most iconic landmarks Sydney has to offer.</h3>
+
+		</div>
+
+		<!--div class="video-skip-btn">
+
+			<span></span>
+
+		</div-->
+
+	</div>
+
+	<div class="displayed">
+
+		<div class="editorial">
+
+			<div class="display">
+
+		        <div class="share-buttons">
+
+		            <div class="social_isolation">
+
+		                <button class="interactive-share" data-network="facebook"></button>
+
+		                <button class="interactive-share" data-network="twitter"></button>
+
+		            </div>
+
+		        </div>
+
+				<div class="bylines">
+
+					<a href='https://www.theguardian.com/profile/david-fanner'>David Fanner</a>,
+
+					<a href='https://www.theguardian.com/profile/nick-evershed'>Nick Evershed</a> and
+
+					<a href='https://www.theguardian.com/profile/andy-ball'>Andy Ball</a>
+
+				</div>
+
+				<p><span class="drop-cap"><span class="drop-cap__inner">W</span></span>inding around Sydney’s world-famous harbour, the Bondi-to-Manly is an epic new <a href="https://www.bonditomanly.com/">coastal walk</a> that links two of Australia’s favourite beaches and takes in some of the most iconic landmarks Sydney has to offer.</p>
+
+				<p>Long-distance urban walks like the 80km Bondi-to-Manly are pretty rare. The only other multi-day hike through built-up areas I’ve experienced has been the Camino de Santiago in the north of Spain. The sense of spirituality (or at the least self-discovery) that defines the Camino is in less effect traipsing through some of Australia’s richest suburbs...but there is <a href="https://www.theguardian.com/travel/2017/nov/05/happy-isolation-hiking-the-ridges-of-the-larapinta-trail">something about committing to a long-distance hike</a> and leaving the day-to-day behind that clears the mind, and there are stretches throughout the Bondi-to-Manly that are absolute magic.</p>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<h2 class="flaneur">Interactive video: experience the entire Bondi to Manly walk</h2>
+
+	<div id="app" class="contained">
+
+		<div id="interactive_preloader"></div>
+
+	</div>
+
+
+	<div class="displayed">
+
+		<div class="editorial">
+
+			<div class="display">
+
+				<p>My first tip – call it a hot tip – to those planning to walk the Bondi-to-Manly is not to do it during a heatwave.  I did, and walking in temperatures hovering between 32-37C with high humidity and little wind makes for a very sweaty experience...although the blue skies throughout look great on camera.</p>
+
+				<p>I started my walk just after sunrise with my feet in the surf at the south end of Bondi Beach.</p>
+
+				<p>The iconic strip of sand holds a dear place in the Australian consciousness, books and songs have been written about it, we have Bondi Rescue, the Bondi Hipsters and a Bondi Vet on our TV screens, even <a href="https://youtu.be/aCzfOO0SCHI?t=142">Heath Ledger famously found the surf at Bondi irresistible in Two Hands</a>.</p>
+
+				<p>It’s become so famous that it’s both underrated and overrated at the same time. Critics can’t seem to separate its popularity from its natural beauty, but the sand at Bondi is fine and the beach is long. Arriving at the beach early and without any crowds to deal with, I walked the length of the beach with the waves breaking just over my ankles. </p>
+
+				<div class="editorial_image">
+
+					<img src="<%= path %>/assets/imgs/editorial/BONDI.jpg">
+
+				</div>
+
+				<div class="editorial_caption">Early morning at Bondi Beach</div>
+
+				<p>There isn’t a city in the world that has better, cleaner and clearer beaches than Sydney and over the Bondi-to-Manly walk there are a remarkable 36 other beaches or coves that you pass on your trip around the Harbour.  With such a long list of possible spots for a dip, the only problem is you will want to stop and swim at every one of them. Bobbing up and down in the clear waters of Hayes Street Beach in Neutral Bay, it’s easy to forget you’re right in the middle of Australia’s biggest city.</p>
+
+				<p>Of course, clear water doesn’t necessarily mean <em/>clean</em> water. <a href="https://www.theguardian.com/environment/video/2018/apr/16/welcome-to-australias-plastic-beach-video">The Guardian has documented elsewhere the depressing amount of plastic pollution</a> in the Harbour. But compared to other urban beaches around the world, Sydney Harbour has no peer.</p>
+
+				<p>About 60 kilometres of the walk is on public land with the rest on suburban footpaths, Currently, there is no clear, overarching ‘trail’ to follow, but finding your way is easy – if you cross two bridges and keep the ocean on your right you should eventually make it to Manly.</p>
+
+				<div class="editorial_image">
+
+					<img src="<%= path %>/assets/imgs/editorial/THE_GAP.jpg">
+
+				</div>
+
+				<div class="editorial_caption">Looking north towards the high sandstone cliffs that create The Gap near Watsons Bay</div>
+
+				<p>I divided the approximately 80km between Bondi and Manly into four days:</p>
+
+
+				<p><strong>Day one</strong> starts in Bondi and finishes at the delightful old-timey pontoon beach of Redleaf, just west of Point Piper. Stunning sandstone cliffs plunge into the ocean at Diamond Bay and The Gap as you make your way around South Head. You will also pass Australia’s oldest lighthouse, the magnificent Macquarie Lighthouse at Dunbar Head. There are plenty of beautiful places to pull up for a swim like Shell Cove or the unsettlingly-named Shark Cove.</p>
+
+				<div class="editorial_image">
+
+					<img src="<%= path %>/assets/imgs/editorial/OPERA_HOUSE.jpg">
+
+				</div>
+
+				<div class="editorial_caption">Formally opened in 1973, the Jørn Utzon-designed Sydney Opera House is a classic piece of modern expressionist architecture</div>
+
+				<p><strong>Day two</strong> is the big day for iconic architecture as you get up close and personal with Australia’s two most famous man-made structures – the Opera House and Harbour Bridge. There is a palpable sense of ingenuity, creativity and audacity filling the Opera House’s gigantic ceramic sails as you walk in-between them that is still present 50 years after its completion. Surely, this is the pinnacle of modern expressionist architecture, ageless and magnificent.
+
+				</p>
+
+				<div class="editorial_image">
+
+					<img src="<%= path %>/assets/imgs/editorial/BRIDGE.jpg">
+
+				</div>
+
+				<div class="editorial_caption">Completed during the height of the Depression, the Sydney Harbour Bridge is an iconic steel through arch bridge that connects the city’s north and south.</div>
+
+				<p>Crossing the Harbour Bridge on foot is a longer process that you might think. You need to make your way through Sydney’s old quarter, known as the Rocks, and then up three flights of stairs. It’s 10 minutes before you even reach the sandstone blocks that mark the bridge proper. Despite the high levels of fencing and security, it is a windy and thrilling 20 minute walk to the other side of the bridge, known locally as the ‘Coat Hanger’.</p>
+
+				<p>I started <strong>Day Three</strong> at Taronga Zoo. (I skipped a bit from Cremorne Point to Taronga, but I figure if you’ve seen one outrageously rich Eastern Sydney suburb, you’ve seen ‘em all.) The 21km (or so) covered today is probably the most well-established of all the days of the BtM, as many Sydneysiders cover the Taronga-to-Manly walk on a sunny weekend. The landscape is remarkably varied as you walk through dense bush around Middle Head, enjoy the promenade of Balmoral, Sydney's fancy Victorian-era beach, and step back thousands of years into the past while appreciating the Indigenous rock art at Grotto Point.</p>
+
+				<div class="editorial_image">
+
+					<img src="<%= path %>/assets/imgs/editorial/plank.jpg">
+
+				</div>
+
+				<div class="editorial_caption">Walking the boards near Bradleys Head on Sydney Harbour</div>
+
+				<p><strong>Day Four</strong> is about tying together loose ends for the BtM completists. From Manly Beach you head out past Shelly Beach to North Head, but the hot walk up the exposed trails of North Head is worth it for the final view at Fairfax Lookout.  From here you can almost see the entire 80km journey laid out with new meaning in front of you.</p>
+
+				<h2>Pack light, bring sunscreen</h2>
+
+				<p>One of the greatest aspects of the Bondi-to-Manly as a multi-day hike is that you don’t have to weigh yourself down with gigantic backpack. There are no real camping options available, so you will have to find accommodation each night. Living in Sydney, I caught a bus, train or ferry home at the end of each day’s hike, but smart hoteliers take note: if this walk takes off there are substantial profits to be made in branding yourself as part of the Bondi-to-Manly experience. </p>
+
+				<div class="editorial_image_right">
+
+					<img src="<%= path %>/assets/imgs/IMG-20190117-WA0000.jpg">
+
+				</div>
+
+				<div class="editorial_caption_right">Guardian Australia’s David Fanner cools off with an ice cream while walking the Bondi-to-Manly</div>
+
+				<p>Keeping my pack as light as possible, I only brought a litre of water and relied on the numerous bubblers (water fountains) that dot the parks and paths I crossed to stay hydrated. I packed a couple of sandwiches each day but you could just as easily feed yourself at one of the hundreds of waterfront cafes, pubs or restaurants that line your path.</p>
+
+				<p>Whatever you do, don’t leave home without a broad-brimmed hat and lots of sunscreen. The Australian sun is unforgiving.</p>
+
+				<h2>Private beaches</h2>
+
+				<p>There are places on the Harbour that – I imagine – are incredibly beautiful, but I can’t tell you for certain as they’re inaccessible to the average punter. Lady Martin’s Beach on Point Piper, large sections of Kirribilli, Kurraba, Darling Point to name a but few, all close themselves off to the outside world for the private enjoyment of the multi-millionaires who’ve paid a fortune for their Harbour views and don’t particularly want to share it.</p>
+
+				<p>As national myths go, the idea of egalitarianism is one of our better ones. I’ve been rather successfully socially conditioned to believe we should be able to equally enjoy the natural wonders of this country, and the idea of private beaches flies directly in the face of what I feel is a big part of being Australian.</p>
+
+				<!--div class="editorial_image">
+
+					<img src="<%= path %>/assets/imgs/editorial/NORTH_HEAD.jpg">
+
+				</div>
+
+				<div class="editorial_caption">Look back at the entire Bondi-to-Manly journey from Fairfax Lookout</div-->
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
 

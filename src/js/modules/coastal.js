@@ -4,9 +4,12 @@ import L from 'leaflet' // Check it out... https://blog.webkid.io/rarely-used-le
 import walk from '../modules/walk.json'
 //import * as turf from '@turf/turf'
 import turf from './turfImporter';
+import d3 from './d3Importer';
 import YouTubePlayer from 'youtube-player';
 import Ractive from 'ractive'
 import ractiveTap from 'ractive-events-tap'
+//import * as d3 from 'd3'
+// https://preview.gutools.co.uk/global/ng-interactive/2019/apr/06/bondi-to-manly-walk
 
 export class Coastal {
 
@@ -17,6 +20,8 @@ export class Coastal {
         this.toolbelt = new Toolbelt()
 
         this.googledoc = data
+
+        this.firstrun = true
 
         this.screenWidth = document.documentElement.clientWidth
 
@@ -48,50 +53,8 @@ export class Coastal {
 
         })
 
-        this.bitrate = [{
-            "directory" : "gear1",
-            "bitrate":200,
-            "width":416,
-            "height":234
-        },{
-            "directory" : "gear4",
-            "bitrate":1200,
-            "width":640,
-            "height":540
-        },{
-            "directory" : "gear5",
-            "bitrate":1800,
-            "width":960,
-            "height":540
-        },{
-            "directory" : "gear7",
-            "bitrate":4500,
-            "width":1280,
-            "height":720
-        },{
-            "directory" : "gear9",
-            "bitrate":7995,
-            "width":1920,
-            "height":1080
-        }]
-
-        var i = 0;
-
-        self.directory = "gear9"
-
-        self.screen_res = "416"
-
-        while (self.bitrate[i].width < self.screenWidth && i < self.bitrate.length) {
-
-          self.directory = self.bitrate[i].directory
-
-          self.screen_res = self.bitrate[i].width
-
-          i++;
-
-        }
-
-        console.log(self.screen_res)
+        this.directory = (self.screenWidth > 960 ) ? "960" :
+                        (self.screenWidth > 640) ? "640" : "416" ;
 
         this.database = {
 
@@ -99,16 +62,138 @@ export class Coastal {
 
             waypoints: self.waypoints,
 
-            directory: self.directory,
-
             initiated: true,
 
-            isDesktop: true
+            isDesktop: true,
+
+            directory: this.directory
         }
+
+        this.video = document.getElementById("video");
 
         this.ractivate()
 
 	}
+
+    tracker() {
+
+        var self = this
+
+        var height = document.documentElement.scrollHeight - 100
+
+        var lineFunction = d3.line()
+                                .x(function(d) { return d.x; })
+                                .y(function(d) { return d.y; })
+                                .curve(d3.curveCardinal);
+
+        /*
+        *
+        *
+        *
+        *
+        *
+        *
+        * The left side
+        */
+
+        var lineDataLeft = [    { "x": 50,"percentage" : 0 },  
+                            { "x": 50,"percentage" : 10},
+                            { "x": 220,"percentage" : 20}, 
+                            { "x": 380,"percentage" : 30},
+                            { "x": 210,"percentage" : 40},
+                            { "x": 330,"percentage" : 50},
+                            { "x": 70,"percentage" : 60},
+                            { "x": 330,"percentage" : 70}, 
+                            { "x": 220,"percentage" : 80},
+                            { "x": 20,"percentage" : 90},
+                            { "x": 20,"percentage" : 100} ];
+
+        for (var i = 0; i < lineDataLeft.length; i++) {
+
+            lineDataLeft[i].y = height / 100 * lineDataLeft[i].percentage
+
+        }
+
+        var svgContainerLeft = d3.select("#svg_container_left").append("svg")
+                                .attr("width", 400)
+                                .attr("height", height);
+
+        var lineGraphLeft = svgContainerLeft.append("path")
+                            .classed('pathway left', true)
+                            .attr("d", lineFunction(lineDataLeft))
+                            .attr("stroke-width", 2)
+                            .attr("fill", "none")
+
+                        svgContainerLeft.append("path")
+                            .classed('dashed', true)
+                            .attr("d", lineFunction(lineDataLeft))
+                            .attr("stroke-width", 2)
+                            .attr("fill", "none")
+
+        this.pathway = d3.select('.left');
+
+        this.pathLength = this.pathway.node().getTotalLength()
+
+        this.pathway.attr("stroke-dasharray", this.pathLength,this.pathLength)
+  
+        console.log("path length: " + this.pathLength); //prints how long the stroke is
+
+        /*
+        *
+        *
+        *
+        *
+        *
+        *
+        * The Right side
+        */
+
+        var lineDataRight = [    { "x": 50,"percentage" : 0 },  
+                            { "x": 50,"percentage" : 10},
+                            { "x": 320,"percentage" : 20}, 
+                            { "x": 380,"percentage" : 30},
+                            { "x": 380,"percentage" : 40},
+                            { "x": 380,"percentage" : 50},
+                            { "x": 70,"percentage" : 60},
+                            { "x": 330,"percentage" : 70}, 
+                            { "x": 220,"percentage" : 80},
+                            { "x": 380,"percentage" : 90},
+                            { "x": 0,"percentage" : 100} ];
+
+        for (var i = 0; i < lineDataRight.length; i++) {
+
+            lineDataRight[i].y = height / 100 * lineDataRight[i].percentage
+
+        }
+
+        var svgContainerRight = d3.select("#svg_container_right").append("svg")
+                                .attr("width", 400)
+                                .attr("height", height);
+
+        var lineGraphRight = svgContainerRight.append("path")
+                            .classed('pathway right', true)
+                            .attr("d", lineFunction(lineDataRight))
+                            .attr("stroke-width", 2)
+                            .attr("fill", "none")
+
+                        svgContainerRight.append("path")
+                            .classed('dashed', true)
+                            .attr("d", lineFunction(lineDataRight))
+                            .attr("stroke-width", 2)
+                            .attr("fill", "none")
+
+        this.pathwayRight = d3.select('.right');
+
+        this.pathLengthRight = this.pathwayRight.node().getTotalLength()
+
+        this.pathwayRight.attr("stroke-dasharray", this.pathLengthRight,this.pathLengthRight)
+  
+        console.log("path length right: " + this.pathLengthRight); //prints how long the stroke is
+
+        self.renderLoop()
+
+
+    }
 
     ractivate() {
 
@@ -135,15 +220,17 @@ export class Coastal {
 
         });
 
+
+        this.ractive.on( 'controller', function ( context ) {
+
+            (self.status==2) ? self.youTubePlayer.playVideo() : (self.status==1) ? self.youTubePlayer.pauseVideo() : console.log(`You tube status ${self.status}`) ;
+
+        });
+
+
         this.ractive.on('play', function(context, lat, lng, secs, ends, editorial, image) {
 
             self.youTubePlayer.seekTo(secs, true)
-
-            if (self.database.iOS) {
-
-                self.youTubePlayer.playVideo();
-
-            }
 
             self.playhead.setLatLng([lat, lng], {
 
@@ -195,6 +282,12 @@ export class Coastal {
             }
         });
 
+        self.youTubePlayer.on('error', error => {
+
+            console.log(error)
+
+        });
+
         self.youTubePlayer.on('ready', event => {
 
             event.target.mute();
@@ -227,9 +320,11 @@ export class Coastal {
                     self.ractive.set('initiated', self.database.initiated)
                 }
                 self.toolbelt.alpharizer(overlay,0)
+                overlay.className = 'youtube_overlay video_play';
                 break;
               case 2:
                 self.toolbelt.alpharizer(overlay,100)
+                overlay.className = 'youtube_overlay video_pause';
                 console.log('paused');
                 break;
               case 3:
@@ -250,15 +345,29 @@ export class Coastal {
             .loadVideoById({
                 'videoId': self.url,
                 'startSeconds': 0,
-                'suggestedQuality': (self.database.isApp || self.database.isMobile) ? 'small' : 'large' ,
+                'suggestedQuality': 'large' ,
            })
             .then(() => {
 
-                self.initMap()
+                console.log("You tube initiated")
 
-                self.renderLoop()
+                self.activate()
 
             });
+
+    }
+
+    activate() {
+
+        var self = this
+
+        document.getElementById("audio-switch").addEventListener('change',function(event) {
+
+            (document.getElementById("audio-switch").checked==false) ? self.youTubePlayer.mute() : self.youTubePlayer.unMute() ;
+
+        });
+
+        this.initMap()
 
     }
 
@@ -350,6 +459,8 @@ export class Coastal {
             //console.log("You clicked on the map")
 
         });
+
+        this.tracker()
 
     }
 
@@ -485,13 +596,6 @@ export class Coastal {
 
         });
 
-        window.addEventListener("orientationchange", function() {
-            
-            //console.log("orientationchange")
-            
-        }, false);
-
-
     }
 
     calculateCover(frame, sides) {
@@ -510,43 +614,22 @@ export class Coastal {
         return cover;
     }
 
-    appscroll() {
-
-        var isAndroidApp = (window.location.origin === "file://" && /(android)/i.test(navigator.userAgent) ) ? true : false ;
-
-        var el = document.getElementById('map');
-
-        el.ontouchstart = function(e){
-
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
-
-              window.top.GuardianJSInterface.registerRelatedCardsTouch(true);
-
-            }
-        };
-
-        el.ontouchend = function(e){
-
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
-
-              window.top.GuardianJSInterface.registerRelatedCardsTouch(false);
-
-            }
-
-        };
-
-    }
-
     renderLoop() {
 
         var self = this
 
         let video = self.calculateCover({width: self.screenWidth, height: self.screenHeight}, [16,9])
 
+        let half = window.innerHeight / 2
+
         this.requestAnimationFrame = requestAnimationFrame( function() {
 
+            self.pathway.attr("stroke-dashoffset", `${self.pathLength - window.pageYOffset - half}px`)
+
+            self.pathwayRight.attr("stroke-dashoffset", `${self.pathLengthRight - window.pageYOffset - half}px`)
+
             // If the user has scrolled past the intro video... pause the intro video and play the you tube video
-            if (window.pageYOffset > video.height) {
+            if (window.pageYOffset > video.height && self.video) {
 
                 // Intro video
                 if (!self.video.paused) {
@@ -556,7 +639,9 @@ export class Coastal {
                 }
 
                 // You tube video
-                if (self.status==2) {
+                if (self.status==2 && self.firstrun) {
+
+                    self.firstrun = false
 
                     self.youTubePlayer.playVideo();
 
@@ -564,13 +649,6 @@ export class Coastal {
 
 
             } else {
-
-                // You tube video
-                if (self.status==1) {
-
-                    self.youTubePlayer.pauseVideo();
-
-                }
 
                 // Intro video
                 if (self.video.paused) {

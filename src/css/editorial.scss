@@ -1,0 +1,53 @@
+@import "mq";
+
+.editorial_image {
+	width:100%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.editorial_image img, .editorial_image_right img {
+	width:100%;
+}
+
+.editorial_image_right {
+
+	margin-top: 10px;
+	margin-bottom: 20px;
+
+	@include mq($until: tablet) {
+		width: 100%;
+	}
+
+	@include mq($from: tablet) {
+		width: 50%;
+		float: right;
+		margin-left: 10px;
+	}
+
+}
+
+.editorial_caption_right {
+
+    font-family: "Guardian Text Sans Web", "Agate Sans", sans-serif;
+    color: #FFB73E;
+
+	margin-bottom: 10px;
+
+	@include mq($until: tablet) {
+		width: 100%;
+	}
+
+	@include mq($from: tablet) {
+		width: 50%;
+		float: right;
+		margin-left: 10px;
+	}
+
+}
+
+.flaneur {
+	text-align: center;
+	padding-left: 10px;
+	padding-right: 10px;
+}

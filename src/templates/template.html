@@ -9,14 +9,14 @@
 			  <div>
 
 			    <div id="walk_video">
-			    	{{#if isDesktop}}{{else}}<video id="video_walk" playsinline muted></video>{{/if}}
+			    	{{#if isDesktop}}{{else}}<video on-tap="['lite']" poster="<%= path %>/assets/imgs/posters/bondi_{{directory}}.jpg" id="video_walk" playsinline="true" muted></video>{{/if}}
 			    </div>
 
 			  </div>
 
 			</div>
 
-			<div id="overlay" class="youtube_overlay"></div>
+			<div on-tap="['controller']" id="overlay" class="youtube_overlay"></div>
 
 		</div>
 

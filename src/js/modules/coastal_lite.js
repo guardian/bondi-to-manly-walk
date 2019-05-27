@@ -15,60 +15,12 @@ export class Coastal {
 
         this.screenWidth = document.documentElement.clientWidth
 
-        this.screenHeight = document.documentElement.clientHeight
-
         this.default = "Click on a popular Sydney location"
 
-        this.waypoints = this.googledoc.filter(function(value, index) {
+        this.waypoints = this.googledoc.filter( (w) => w.EDITORIAL != "")
 
-            return value.EDITORIAL != ""
-
-        })
-
-        this.bitrate = [{
-            "directory" : "gear1",
-            "bitrate":200,
-            "width":416,
-            "height":234
-        },{
-            "directory" : "gear4",
-            "bitrate":1200,
-            "width":640,
-            "height":540
-        },{
-            "directory" : "gear5",
-            "bitrate":1800,
-            "width":960,
-            "height":540
-        },{
-            "directory" : "gear7",
-            "bitrate":4500,
-            "width":1280,
-            "height":720
-        },{
-            "directory" : "gear9",
-            "bitrate":7995,
-            "width":1920,
-            "height":1080
-        }]
-
-        var i = 0;
-
-        self.directory = "gear9"
-
-        self.screen_res = "416"
-
-        while (self.bitrate[i].width < self.screenWidth && i < self.bitrate.length) {
-
-          self.directory = self.bitrate[i].directory
-
-          self.screen_res = self.bitrate[i].width
-
-          i++;
-
-        }
-
-        console.log(self.screen_res)
+        this.directory = (self.screenWidth > 960 ) ? "960" :
+                        (self.screenWidth > 640) ? "640" : "416" ;
 
         this.database = {
 
@@ -76,11 +28,11 @@ export class Coastal {
 
             waypoints: self.waypoints,
 
-            directory: self.directory,
-
             initiated: true,
 
-            isDesktop: false
+            isDesktop: false,
+
+            directory: this.directory
         }
 
         this.ractivate()
@@ -112,6 +64,30 @@ export class Coastal {
 
         });
 
+        this.ractive.on('lite', function ( context ) {
+
+            var video = document.getElementById("video_walk");
+
+            if (video.paused) {
+
+                video.play()
+
+            } else {
+
+                if (video.currentTime > 0 && !video.ended && video.readyState > 2) {
+
+                    video.pause()
+
+                }
+
+            }
+
+            //console.log(video.paused, video.currentTime, video.ended, video.readyState)
+
+
+        });
+
+
         this.ractive.on('play', function(context, lat, lng, secs, ends, editorial, image) {
 
             console.log("Play video " + image)
@@ -126,16 +102,26 @@ export class Coastal {
 
             var video = document.getElementById("video_walk");
 
-            video.src = `https://interactive.guim.co.uk/2019/03/bondi-to-manly/hyperlapse.mp4` //${self.path}/hyperlapse${self.vidType.src}`;
+            video.src = `https://interactive.guim.co.uk/2019/05/bondi_to_manly/${self.directory}/${image}.mp4`
             
             video.type = `video/mp4`
             
-            video.muted = true;
+            video.poster = "";
+
+            video.setAttribute(`playsinline`, true);
 
             video.play();
 
-
         })
+
+        var video = document.getElementById("video_walk");
+
+        document.getElementById("audio-switch").addEventListener('change',function(event) {
+
+            video.muted = (document.getElementById("audio-switch").checked==false) ? true : false ;
+
+        });
+
 
     }
 

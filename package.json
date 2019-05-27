@@ -52,6 +52,7 @@
   "dependencies": {
     "@turf/turf": "^5.1.6",
     "core-js": "^2.6.2",
+    "d3": "^5.9.2",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.6.1",
     "gulp-sass": "^4.0.2",
