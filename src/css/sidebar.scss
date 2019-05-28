@@ -54,12 +54,11 @@
 		background-color: black;
 	}
 
-
 	@include mq($from: desktop) {
 		position: absolute;
 		top: 0px;
 		left: 0px;
-		bottom: 0px;
+		bottom: 30px;
 		width: 420px;
 		background: rgba(88, 88, 88, 0.8);
 		animation: slideIn .5s ease-in-out both;
@@ -186,6 +185,17 @@
 	width: 100%;
 }
 
+
+.sidebar_editorial_hero_image{
+
+	@include mq($until: wide) {
+		display: none;
+	}
+
+}
+
+
+
 .sidebar_navigation_container ul {
 	list-style: none; /* Remove list bullets */
 	padding: 0;
@@ -202,8 +212,36 @@
 	cursor: pointer;
 	box-sizing: border-box;
 	padding: 6px;
-	line-height: 50px;
-	height: 65px;
+	
+	
+
+
+	@include mq($until: mobileLandscape) {
+		line-height: 50px;
+	}
+
+	@include mq($from: mobileLandscape, $until: tablet) {
+		line-height: 50px;
+	}
+
+	@include mq($from: tablet, $until: desktop) {
+		line-height: 50px;
+	}
+
+	@include mq($from: desktop, $until: leftCol) {
+		line-height: 50px;
+	}
+
+	@include mq($from: leftCol, $until: wide) {
+		line-height: 50px;
+	}
+
+	@include mq($from: wide) {
+		line-height: 40px;
+	}
+
+
+
 }
 
 
@@ -220,8 +258,38 @@
 
 	float: left;
 	margin-right: 10px;
-	width: 50px;
-	height: 50px;
+
+
+	@include mq($until: mobileLandscape) {
+		width: 50px;
+		height: 50px;
+	}
+
+	@include mq($from: mobileLandscape, $until: tablet) {
+		width: 50px;
+		height: 50px;
+	}
+
+	@include mq($from: tablet, $until: desktop) {
+		width: 50px;
+		height: 50px;
+	}
+
+	@include mq($from: desktop, $until: leftCol) {
+		width: 50px;
+		height: 50px;
+	}
+
+	@include mq($from: leftCol, $until: wide) {
+		width: 50px;
+		height: 50px;
+	}
+
+	@include mq($from: wide) {
+		width: 40px;
+		height: 40px;
+	}
+
 
 }
 

@@ -8,7 +8,9 @@ import d3 from './d3Importer';
 import YouTubePlayer from 'youtube-player';
 import Ractive from 'ractive'
 import ractiveTap from 'ractive-events-tap'
-//import * as d3 from 'd3'
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
+
 // https://preview.gutools.co.uk/global/ng-interactive/2019/apr/06/bondi-to-manly-walk
 
 export class Coastal {
@@ -18,6 +20,10 @@ export class Coastal {
 		var self = this
 
         this.toolbelt = new Toolbelt()
+
+        this.status = null
+
+        this.stealth = true
 
         this.googledoc = data
 
@@ -43,7 +49,13 @@ export class Coastal {
 
         this.start = turf.point([151.27439227079734, -33.89364721233857])
 
+        this.distance_from_start = 0
+
         this.total = 76.18318543466248 //turf.length(self.walk, { units: 'kilometers'} )
+
+        this.duration = 52935.76126984127
+
+        this.current = 0
 
         this.youTubePlayerInitiated = false
 
@@ -53,8 +65,7 @@ export class Coastal {
 
         })
 
-        this.directory = (self.screenWidth > 960 ) ? "960" :
-                        (self.screenWidth > 640) ? "640" : "416" ;
+        this.directory = (self.screenWidth > 960 ) ? "960" : (self.screenWidth > 640) ? "640" : "416" ;
 
         this.database = {
 
@@ -66,10 +77,14 @@ export class Coastal {
 
             isDesktop: true,
 
-            directory: this.directory
+            directory: this.directory,
+
+            percentage: 0,
         }
 
         this.video = document.getElementById("video");
+
+        this.progressInterval = window.setInterval(function(){ self.progress(); }, 1000);
 
         this.ractivate()
 
@@ -136,7 +151,7 @@ export class Coastal {
 
         this.pathway.attr("stroke-dasharray", this.pathLength,this.pathLength)
   
-        console.log("path length: " + this.pathLength); //prints how long the stroke is
+        // console.log("path length: " + this.pathLength); //prints how long the stroke is
 
         /*
         *
@@ -188,10 +203,9 @@ export class Coastal {
 
         this.pathwayRight.attr("stroke-dasharray", this.pathLengthRight,this.pathLengthRight)
   
-        console.log("path length right: " + this.pathLengthRight); //prints how long the stroke is
+        // console.log("path length right: " + this.pathLengthRight); //prints how long the stroke is
 
         self.renderLoop()
-
 
     }
 
@@ -210,16 +224,9 @@ export class Coastal {
 
         this.ractive.on( 'panel', function ( context ) {
 
-            var sidebar = document.getElementById("sidebar");
-
-            sidebar.classList.toggle("hidebar");
-
-            var map = document.getElementById("map");
-
-            map.style.visibility = map.style.visibility == "hidden" ? "visible" : "hidden";
+            self.panel()
 
         });
-
 
         this.ractive.on( 'controller', function ( context ) {
 
@@ -227,28 +234,101 @@ export class Coastal {
 
         });
 
+        this.ractive.on( 'skip', function ( context, direction, distance ) {
+
+            self.skip(direction, distance)
+
+        });
 
         this.ractive.on('play', function(context, lat, lng, secs, ends, editorial, image) {
 
-            self.youTubePlayer.seekTo(secs, true)
-
-            self.playhead.setLatLng([lat, lng], {
-
-                draggable: true
-
-            })
-
-            self.database.blurb = editorial
-
-            self.database.image = image
-
-            self.ractive.set('blurb', self.database.blurb)
-
-            self.ractive.set('image', self.database.image)
+            self.play(lat, lng, secs, ends, editorial, image)
 
         })
 
+        document.getElementById("video-skip-btn").addEventListener('click',function(event) {
+
+            var target = document.getElementById("app")
+
+            self.scrollTo(target, -130)
+
+        });
+
         this.createPlayer()
+
+    }
+
+    panel() {
+
+        var sidebar = document.getElementById("sidebar");
+
+        sidebar.classList.toggle("hidebar");
+
+        var map = document.getElementById("map");
+
+        map.style.visibility = map.style.visibility == "hidden" ? "visible" : "hidden" ;
+
+    }
+
+    skip(direction, distance) {
+
+        var self = this
+
+        var orbit = +distance
+
+        self.stealth = false
+
+        if (self.status ===1 || self.status ===2) {
+
+            var destination = ( direction==='back') ? self.current - orbit : self.current + orbit ;
+
+            self.current = (destination > 0 && destination < self.duration) ? destination : 0 ;
+
+            self.youTubePlayer.seekTo(self.current, true)
+
+            self.database.percentage = Math.floor( 100 / self.duration * self.current )
+
+            self.ractive.set('percentage', self.database.percentage)
+
+            self.stealth = true
+
+            self.relocate()
+
+        }
+
+    }
+
+    relocate() {
+
+        var self = this
+
+        if (self.stealth) {
+
+            console.log(`Update map position`)
+
+        }
+
+    }
+
+    play(lat, lng, secs, ends, editorial, image) {
+
+        var self = this
+
+        self.youTubePlayer.seekTo(secs, true)
+
+        self.playhead.setLatLng([lat, lng], {
+
+            draggable: true
+
+        })
+
+        self.database.blurb = editorial
+
+        self.database.image = image
+
+        self.ractive.set('blurb', self.database.blurb)
+
+        self.ractive.set('image', self.database.image)
 
     }
 
@@ -284,7 +364,7 @@ export class Coastal {
 
         self.youTubePlayer.on('error', error => {
 
-            console.log(error)
+            // console.log(error)
 
         });
 
@@ -308,13 +388,13 @@ export class Coastal {
 
             switch (self.status) {
               case -1:
-                console.log('unstarted');
+                // console.log('unstarted');
                 break;
               case 0:
-                console.log('ended');
+                // console.log('ended');
                 break;
               case 1:
-                console.log('play');
+                // console.log('play');
                 if (!self.database.initiated) {
                     self.database.initiated = true
                     self.ractive.set('initiated', self.database.initiated)
@@ -325,16 +405,16 @@ export class Coastal {
               case 2:
                 self.toolbelt.alpharizer(overlay,100)
                 overlay.className = 'youtube_overlay video_pause';
-                console.log('paused');
+                // console.log('paused');
                 break;
               case 3:
-                 console.log('buffering');
+                 // console.log('buffering');
                 break;
               case 5:
-                console.log('video cued');
+                // console.log('video cued');
                 break;
               default:
-               console.log("Something is not right");
+               // console.log("Something is not right");
             }
 
         });
@@ -349,8 +429,119 @@ export class Coastal {
            })
             .then(() => {
 
-                console.log("You tube initiated")
+                // console.log("You tube initiated")
+                
+                self.hyperlapse()
 
+            });
+
+    }
+
+    progress() {
+
+        var self = this
+
+        if (self.status ===1 || self.status ===2) {
+
+            self.youTubePlayer.getCurrentTime().then((current) => {
+
+                self.current = current
+
+                self.database.percentage = Math.floor(100 / self.duration * current)
+
+                self.ractive.set('percentage', self.database.percentage)
+
+                self.relocate()
+
+            });
+
+        }
+
+    }
+
+    hyperlapse() {
+
+        var self = this        
+
+        var hyperlapse = document.getElementById('hyperlapse');
+
+        var hyperWidth = hyperlapse.clientWidth
+
+        // console.log(`hyperlapse width ${hyperWidth}`)
+
+        /*
+        The behavior for the rel parameter is changing on or after September 25, 2018. 
+        The effect of the change is that you will not be able to disable related videos. 
+        However, you will have the option of specifying that the related videos shown in 
+        the player should be from the same channel as the video that was just played
+        https://stackoverflow.com/questions/13418028/youtube-javascript-api-disable-related-videos
+        */
+
+        self.hyperlapsePlayer = new YouTubePlayer('hyperlapse', {
+            height: hyperWidth * 0.56,
+            width: hyperWidth,
+            playerVars: {
+                'controls': 0,
+                'rel': 0,
+                'showinfo': 0,
+                'loop': 1,
+                'modestbranding': 1,
+                'playsinline': 1,
+                'start': 0,
+                'enablejsapi':1
+            }
+        });
+
+        self.hyperlapsePlayer.on('error', error => {
+
+            // console.log(error)
+
+        });
+
+        self.hyperlapsePlayer.on('ready', event => {
+
+            event.target.mute();
+
+        });
+
+        self.hyperlapsePlayer.on('stateChange', event => {
+
+            switch (event.data) {
+              case -1:
+                // console.log('unstarted');
+                break;
+              case 0:
+                // console.log('ended');
+                break;
+              case 1:
+                // console.log('play');
+                break;
+              case 2:
+                // console.log('paused');
+                break;
+              case 3:
+                 // console.log('buffering');
+                break;
+              case 5:
+                // console.log('video cued');
+                break;
+              default:
+               // console.log("Something is not right");
+            }
+
+        });
+
+        // https://developers.google.com/hyperlapse/iframe_api_reference#setPlaybackQuality
+
+        self.hyperlapsePlayer
+            .loadVideoById({
+                'videoId': '63wARkXeiRk',
+                'startSeconds': 0,
+                'suggestedQuality': 'large' ,
+           })
+            .then(() => {
+
+                // console.log("You tube initiated")
                 self.activate()
 
             });
@@ -361,11 +552,16 @@ export class Coastal {
 
         var self = this
 
+        document.getElementById("nav-wrap").style.display = "block";
+
         document.getElementById("audio-switch").addEventListener('change',function(event) {
 
             (document.getElementById("audio-switch").checked==false) ? self.youTubePlayer.mute() : self.youTubePlayer.unMute() ;
 
+            (document.getElementById("audio-switch").checked==false) ? self.hyperlapsePlayer.mute() : self.hyperlapsePlayer.unMute() ;
+
         });
+
 
         this.initMap()
 
@@ -435,11 +631,15 @@ export class Coastal {
 
         self.playhead.on('dragstart', function(e) {
 
-            //console.log("Pause any currently playing videos")
+            self.stealth = false
+
+            //// console.log("Pause any currently playing videos")
 
         });
 
         self.playhead.on('dragend', function(e) {
+
+            self.stealth = true
 
             let coordinates = self.playhead.getLatLng();
 
@@ -450,13 +650,13 @@ export class Coastal {
         // Set the circle radius depending on zoom level
         self.map.on('zoomend', function(e) {
 
-            //console.log("You finished zooming")
+            //// console.log("You finished zooming")
 
         });
 
         self.map.on('click', function(e) {
 
-            //console.log("You clicked on the map")
+            //// console.log("You clicked on the map")
 
         });
 
@@ -508,6 +708,8 @@ export class Coastal {
 
         }
 
+        self.distance_from_start = distance
+
         self.playhead.setLatLng([longitudeLatitude[1],longitudeLatitude[0]], {
 
             draggable: true
@@ -518,17 +720,9 @@ export class Coastal {
 
         self.ractive.set('blurb', self.database.blurb)
 
-        var message =  `Current stage: ${leg}\nLatitude: ${longitudeLatitude[1]}\nLongitude: ${longitudeLatitude[0]}\nVideo: ${self.toolbelt.temporalFormat(playhead)}\nDistance from start: ${distance}\n----------------------------------\n\n`;
-
-        console.log(message);
+        //console.log(`Current stage: ${leg}\nLatitude: ${longitudeLatitude[1]}\nLongitude: ${longitudeLatitude[0]}\nVideo: ${self.toolbelt.temporalFormat(playhead)}\nDistance from start: ${distance}\n----------------------------------\n\n`);
 
         self.youTubePlayer.seekTo(playhead, true)
-
-        if (self.database.iOS) {
-
-            self.youTubePlayer.playVideo();
-
-        }
 
     }
 
@@ -547,6 +741,12 @@ export class Coastal {
     calculateDistance(track) {
 
         return turf.length(track, { units: 'kilometers'} )
+
+    }
+
+    calculateAlong(track, along) {
+
+        return turf.along(track, along, { units: 'kilometers'})
 
     }
 
@@ -663,4 +863,25 @@ export class Coastal {
 
         })
     }
+
+    scrollTo(element, extra=0) {
+
+        var self = this
+
+        // console.log("scroll to")
+
+        setTimeout(function() {
+
+            var elementTop = (window.pageYOffset + element.getBoundingClientRect().top) + extra
+
+            window.scroll({
+              top: elementTop,
+              behavior: "smooth"
+            });
+
+        }, 400);
+
+    }
+
+
 }

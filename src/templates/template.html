@@ -64,6 +64,27 @@
 
 		</div>
 
+		{{#if isDesktop}}
+		<div class="progress_container">
+			<div class="progress_bar_container">
+				<div class="progress_bar" style="width: {{percentage}}%"></div>
+			</div>
+			<div class="progress_control_container">
+
+				<div class="progress_control_display">14:00:00</div>
+
+				<div on-tap="['skip','forward', '20']" class="progress_control_single_button"></div>
+
+				<div on-tap="['skip','forward', '60']" class="progress_control_double_button"></div>
+
+				<div on-tap="['skip','back', '60']" class="progress_control_double_button"></div>
+
+				<div on-tap="['skip','back', '20']" class="progress_control_single_button"></div>
+				
+			</div>
+		</div>
+		{{/if}}
+
 	</div>
 
 </div>

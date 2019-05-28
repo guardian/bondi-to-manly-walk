@@ -30,6 +30,8 @@
 
 		<div class="sixteen_by_nine">
 
+			<div class="video-overlay"></div>
+
 			<div class="video-wrapper">
 
 				<video id="video" playsinline="true" muted loop="true" autoplay>
@@ -55,16 +57,12 @@
 
 			<h1><span>The Bondi to Manly:</span> <br>Sydney’s spectacular harbour walk</h1>
 
-			<h3>Follow the epic 80km coastal walk that links two of Australia’s favourite beaches and takes in
-			some of the most iconic landmarks Sydney has to offer.</h3>
+			<!--h3>Follow the epic 80km coastal walk that links two of Australia’s favourite beaches and takes in
+			some of the most iconic landmarks Sydney has to offer.</h3-->
 
 		</div>
 
-		<!--div class="video-skip-btn">
-
-			<span></span>
-
-		</div-->
+		<div id="video-skip-btn" class="video-skip-btn"></div>
 
 	</div>
 
@@ -90,9 +88,11 @@
 
 					<a href='https://www.theguardian.com/profile/david-fanner'>David Fanner</a>,
 
-					<a href='https://www.theguardian.com/profile/nick-evershed'>Nick Evershed</a> and
+					<a href='https://www.theguardian.com/profile/nick-evershed'>Nick Evershed</a>,
 
-					<a href='https://www.theguardian.com/profile/andy-ball'>Andy Ball</a>
+					<a href='https://www.theguardian.com/profile/andy-ball'>Andy Ball</a> and
+
+					<a href='https://www.theguardian.com/profile/miles-martignoni'>Miles Martignoni</a>
 
 				</div>
 
@@ -129,19 +129,13 @@
 
 				<p>It’s become so famous that it’s both underrated and overrated at the same time. Critics can’t seem to separate its popularity from its natural beauty, but the sand at Bondi is fine and the beach is long. Arriving at the beach early and without any crowds to deal with, I walked the length of the beach with the waves breaking just over my ankles. </p>
 
-				<div class="editorial_image">
+				<div id="hyperlapse" class="editorial_hyperlapse"></div>
 
-					<img src="<%= path %>/assets/imgs/editorial/BONDI.jpg">
-
-				</div>
-
-				<div class="editorial_caption">Early morning at Bondi Beach</div>
+				<div class="editorial_caption">In a hurry? Take the hyperlapse!</div>
 
 				<p>There isn’t a city in the world that has better, cleaner and clearer beaches than Sydney and over the Bondi-to-Manly walk there are a remarkable 36 other beaches or coves that you pass on your trip around the Harbour.  With such a long list of possible spots for a dip, the only problem is you will want to stop and swim at every one of them. Bobbing up and down in the clear waters of Hayes Street Beach in Neutral Bay, it’s easy to forget you’re right in the middle of Australia’s biggest city.</p>
 
 				<p>Of course, clear water doesn’t necessarily mean <em/>clean</em> water. <a href="https://www.theguardian.com/environment/video/2018/apr/16/welcome-to-australias-plastic-beach-video">The Guardian has documented elsewhere the depressing amount of plastic pollution</a> in the Harbour. But compared to other urban beaches around the world, Sydney Harbour has no peer.</p>
-
-				<p>About 60 kilometres of the walk is on public land with the rest on suburban footpaths, Currently, there is no clear, overarching ‘trail’ to follow, but finding your way is easy – if you cross two bridges and keep the ocean on your right you should eventually make it to Manly.</p>
 
 				<div class="editorial_image">
 
@@ -151,8 +145,9 @@
 
 				<div class="editorial_caption">Looking north towards the high sandstone cliffs that create The Gap near Watsons Bay</div>
 
-				<p>I divided the approximately 80km between Bondi and Manly into four days:</p>
+				<p>About 60 kilometres of the walk is on public land with the rest on suburban footpaths, Currently, there is no clear, overarching ‘trail’ to follow, but finding your way is easy – if you cross two bridges and keep the ocean on your right you should eventually make it to Manly.</p>
 
+				<p>I divided the approximately 80km between Bondi and Manly into four days:</p>
 
 				<p><strong>Day one</strong> starts in Bondi and finishes at the delightful old-timey pontoon beach of Redleaf, just west of Point Piper. Stunning sandstone cliffs plunge into the ocean at Diamond Bay and The Gap as you make your way around South Head. You will also pass Australia’s oldest lighthouse, the magnificent Macquarie Lighthouse at Dunbar Head. There are plenty of beautiful places to pull up for a swim like Shell Cove or the unsettlingly-named Shark Cove.</p>
 
@@ -168,6 +163,8 @@
 
 				</p>
 
+				<p>Crossing the Harbour Bridge on foot is a longer process that you might think. You need to make your way through Sydney’s old quarter, known as the Rocks, and then up three flights of stairs. It’s 10 minutes before you even reach the sandstone blocks that mark the bridge proper. Despite the high levels of fencing and security, it is a windy and thrilling 20 minute walk to the other side of the bridge, known locally as the ‘Coat Hanger’.</p>
+
 				<div class="editorial_image">
 
 					<img src="<%= path %>/assets/imgs/editorial/BRIDGE.jpg">
@@ -176,17 +173,15 @@
 
 				<div class="editorial_caption">Completed during the height of the Depression, the Sydney Harbour Bridge is an iconic steel through arch bridge that connects the city’s north and south.</div>
 
-				<p>Crossing the Harbour Bridge on foot is a longer process that you might think. You need to make your way through Sydney’s old quarter, known as the Rocks, and then up three flights of stairs. It’s 10 minutes before you even reach the sandstone blocks that mark the bridge proper. Despite the high levels of fencing and security, it is a windy and thrilling 20 minute walk to the other side of the bridge, known locally as the ‘Coat Hanger’.</p>
-
 				<p>I started <strong>Day Three</strong> at Taronga Zoo. (I skipped a bit from Cremorne Point to Taronga, but I figure if you’ve seen one outrageously rich Eastern Sydney suburb, you’ve seen ‘em all.) The 21km (or so) covered today is probably the most well-established of all the days of the BtM, as many Sydneysiders cover the Taronga-to-Manly walk on a sunny weekend. The landscape is remarkably varied as you walk through dense bush around Middle Head, enjoy the promenade of Balmoral, Sydney's fancy Victorian-era beach, and step back thousands of years into the past while appreciating the Indigenous rock art at Grotto Point.</p>
 
-				<div class="editorial_image">
+				<!--div class="editorial_image">
 
 					<img src="<%= path %>/assets/imgs/editorial/plank.jpg">
 
 				</div>
 
-				<div class="editorial_caption">Walking the boards near Bradleys Head on Sydney Harbour</div>
+				<div class="editorial_caption">Walking the boards near Bradleys Head on Sydney Harbour</div-->
 
 				<p><strong>Day Four</strong> is about tying together loose ends for the BtM completists. From Manly Beach you head out past Shelly Beach to North Head, but the hot walk up the exposed trails of North Head is worth it for the final view at Fairfax Lookout.  From here you can almost see the entire 80km journey laid out with new meaning in front of you.</p>
 
@@ -196,7 +191,7 @@
 
 				<div class="editorial_image_right">
 
-					<img src="<%= path %>/assets/imgs/IMG-20190117-WA0000.jpg">
+					<img src="<%= path %>/assets/imgs/editorial/IMG-20190117-WA0000.jpg">
 
 				</div>
 
