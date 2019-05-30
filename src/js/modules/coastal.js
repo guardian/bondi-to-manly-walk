@@ -606,7 +606,7 @@ export class Coastal {
         http://bl.ocks.org/Sumbera/11114288
         */
 
-        L.tileLayer("http://{s}.sm.mapstack.stamen.com/(toner-lite,$fff[difference],$fff[@23],$fff[hsl-saturation@20])/{z}/{x}/{y}.png").addTo(self.map);
+        //L.tileLayer("http://{s}.sm.mapstack.stamen.com/(toner-lite,$fff[difference],$fff[@23],$fff[hsl-saturation@20])/{z}/{x}/{y}.png").addTo(self.map);
 
         self.route = L.geoJson(walk, {
             style: {
@@ -622,6 +622,16 @@ export class Coastal {
         self.bounds = self.route.getBounds()
 
         self.map.fitBounds(self.bounds, {padding: [10, 10]});
+
+        var imageUrl = '<%= path %>/assets/harbour.png',
+
+        imageBounds = self.map.getBounds()
+
+        //[[self.latitude, self.longitude], [self.latitude, self.longitude]];
+
+        L.imageOverlay(imageUrl, imageBounds).addTo(self.map);
+
+
 
         self.route.on('click', function(ev) {
 
