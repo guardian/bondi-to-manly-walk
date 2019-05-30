@@ -114,6 +114,8 @@ export class Coastal {
 
         })
 
+        this.hyperlapse()
+
         var video = document.getElementById("video_walk");
 
         document.getElementById("audio-switch").addEventListener('change',function(event) {
@@ -150,46 +152,26 @@ export class Coastal {
 
     }
 
-    calculateCover(frame, sides) {
+    hyperlapse() {
 
-        var ratio = sides[1] / sides[0],
-          cover = { 
-              width: frame.width,
-              height: Math.ceil(frame.width * ratio) 
-          };
+        var self = this        
 
-        if (cover.height <= frame.height) {
-            cover.height = frame.height;
-            cover.width = Math.ceil(frame.height / ratio);
-        }
+        var hyperlapse = document.getElementById('hyperlapse');
 
-        return cover;
-    }
+        var hyperWidth = hyperlapse.clientWidth
 
-    appscroll() {
+        var hyperHeight = hyperWidth * 0.56
 
-        var isAndroidApp = (window.location.origin === "file://" && /(android)/i.test(navigator.userAgent) ) ? true : false ;
-
-        var el = document.getElementById('map');
-
-        el.ontouchstart = function(e){
-
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
-
-              window.top.GuardianJSInterface.registerRelatedCardsTouch(true);
-
-            }
-        };
-
-        el.ontouchend = function(e){
-
-            if (isAndroidApp && window.top.GuardianJSInterface.registerRelatedCardsTouch) {
-
-              window.top.GuardianJSInterface.registerRelatedCardsTouch(false);
-
-            }
-
-        };
+        var iframe = document.createElement('iframe');
+        iframe.src = "https://www.youtube.com/embed/63wARkXeiRk?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=https://youtubeembedcode.com"
+        iframe.frameborder = "0"
+        iframe.height = hyperHeight
+        iframe.width = hyperWidth
+        iframe.scrolling = "no" 
+        iframe.marginheight = "0"
+        iframe.marginwidth = "0" 
+        hyperlapse.appendChild(iframe);
 
     }
+
 }

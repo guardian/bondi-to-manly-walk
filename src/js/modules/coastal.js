@@ -51,11 +51,17 @@ export class Coastal {
 
         this.distance_from_start = 0
 
+        this.distance_memory = 0
+
+        this.mps = 1.2823359317969538
+
         this.total = 76.18318543466248 //turf.length(self.walk, { units: 'kilometers'} )
 
         this.duration = 52935.76126984127
 
         this.current = 0
+
+        this.currentWaypoint = 0
 
         this.youTubePlayerInitiated = false
 
@@ -79,7 +85,14 @@ export class Coastal {
 
             directory: this.directory,
 
-            percentage: 0,
+            progress: {
+
+                percentage: 0,
+
+                current: '0:00'
+
+            }
+            
         }
 
         this.video = document.getElementById("video");
@@ -163,7 +176,7 @@ export class Coastal {
         * The Right side
         */
 
-        var lineDataRight = [    { "x": 50,"percentage" : 0 },  
+        var lineDataRight = [{ "x": 50,"percentage" : 0 },  
                             { "x": 50,"percentage" : 10},
                             { "x": 320,"percentage" : 20}, 
                             { "x": 380,"percentage" : 30},
@@ -173,7 +186,7 @@ export class Coastal {
                             { "x": 330,"percentage" : 70}, 
                             { "x": 220,"percentage" : 80},
                             { "x": 380,"percentage" : 90},
-                            { "x": 0,"percentage" : 100} ];
+                            { "x": 0,"percentage" : 100}];
 
         for (var i = 0; i < lineDataRight.length; i++) {
 
@@ -240,9 +253,9 @@ export class Coastal {
 
         });
 
-        this.ractive.on('play', function(context, lat, lng, secs, ends, editorial, image) {
+        this.ractive.on('play', function(context, lat, lng, secs, ends, editorial, image, id) {
 
-            self.play(lat, lng, secs, ends, editorial, image)
+            self.play(lat, lng, secs, ends, editorial, image, id)
 
         })
 
@@ -286,9 +299,19 @@ export class Coastal {
 
             self.youTubePlayer.seekTo(self.current, true)
 
-            self.database.percentage = Math.floor( 100 / self.duration * self.current )
+            self.database.progress.current = self.toolbelt.temporalFormat(self.current)
 
-            self.ractive.set('percentage', self.database.percentage)
+            self.database.progress.percentage = Math.floor( 100 / self.duration * self.current )
+
+            self.ractive.set('progress', self.database.progress)
+
+            self.distance_from_start = ( direction==='back') ? ( (self.distance_from_start * 1000 ) - (orbit * self.mps) ) / 1000 : ( ( self.distance_from_start * 1000 ) + (orbit * self.mps) ) / 1000 ;
+
+            if (self.distance_from_start > self.next_waypoint) {
+
+                self.transitional()
+
+            }
 
             self.stealth = true
 
@@ -304,15 +327,39 @@ export class Coastal {
 
         if (self.stealth) {
 
-            console.log(`Update map position`)
+            //console.log(`Current waypoint: ${self.currentWaypoint}`)
+
+            var difference = Math.abs(self.distance_memory - self.distance_from_start)
+
+            if (difference > 0.4 || self.distance_memory === 0) {
+
+                console.log("Time to reposition the map marker")
+
+                self.distance_memory = self.distance_from_start
+
+                var repositioned = self.calculateAlong(self.walk, self.distance_from_start).geometry.coordinates
+
+                if (repositioned!=undefined) {
+
+                    self.playhead.setLatLng([repositioned[1],repositioned[0]], {
+
+                        draggable: true
+
+                    })
+
+                }
+
+            }
 
         }
 
     }
 
-    play(lat, lng, secs, ends, editorial, image) {
+    play(lat, lng, secs, ends, editorial, image, id) {
 
         var self = this
+
+        self.currentWaypoint = id
 
         self.youTubePlayer.seekTo(secs, true)
 
@@ -426,14 +473,7 @@ export class Coastal {
                 'videoId': self.url,
                 'startSeconds': 0,
                 'suggestedQuality': 'large' ,
-           })
-            .then(() => {
-
-                // console.log("You tube initiated")
-                
-                self.hyperlapse()
-
-            });
+           }).then(() => self.hyperlapse());
 
     }
 
@@ -445,17 +485,62 @@ export class Coastal {
 
             self.youTubePlayer.getCurrentTime().then((current) => {
 
+                if (self.status === 1 && self.current != current) {
+
+                    self.distance_from_start = ( ( self.distance_from_start * 1000) + self.mps) / 1000
+
+                    if (self.distance_from_start > self.next_waypoint) {
+
+                        self.transitional()
+
+                    }
+
+                }
+
                 self.current = current
 
-                self.database.percentage = Math.floor(100 / self.duration * current)
+                self.database.progress.current = self.toolbelt.temporalFormat(self.current)
 
-                self.ractive.set('percentage', self.database.percentage)
+                self.database.progress.percentage = Math.floor(100 / self.duration * current)
+
+                self.ractive.set('progress', self.database.progress)
 
                 self.relocate()
 
             });
 
         }
+
+    }
+
+    transitional() {
+
+        var self = this
+
+        console.log("You have crossed aboundary")
+
+        var waypoint = self.currentWaypoint + 1
+
+        var mps = self.googledoc[waypoint].mps
+
+        var next_waypoint = (waypoint < self.googledoc.length - 1) ? self.googledoc[waypoint+1].distance_from_start : self.total ;
+
+        if (self.googledoc[waypoint].SKIP) {
+
+            console.log("The user has crossed into a deadzone skip to the next waypoint")
+
+            mps = self.googledoc[waypoint+1].mps
+
+            next_waypoint = (waypoint < self.googledoc.length - 2) ? self.googledoc[waypoint+2].distance_from_start : self.total ;
+
+        }
+
+        self.currentWaypoint = waypoint
+
+        self.mps = mps
+
+        self.next_waypoint = next_waypoint
+
 
     }
 
@@ -467,84 +552,19 @@ export class Coastal {
 
         var hyperWidth = hyperlapse.clientWidth
 
-        // console.log(`hyperlapse width ${hyperWidth}`)
+        var hyperHeight = hyperWidth * 0.56
 
-        /*
-        The behavior for the rel parameter is changing on or after September 25, 2018. 
-        The effect of the change is that you will not be able to disable related videos. 
-        However, you will have the option of specifying that the related videos shown in 
-        the player should be from the same channel as the video that was just played
-        https://stackoverflow.com/questions/13418028/youtube-javascript-api-disable-related-videos
-        */
+        var iframe = document.createElement('iframe');
+        iframe.src = "https://www.youtube.com/embed/63wARkXeiRk?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=https://youtubeembedcode.com"
+        iframe.frameborder = "0"
+        iframe.height = hyperHeight
+        iframe.width = hyperWidth
+        iframe.scrolling = "no" 
+        iframe.marginheight = "0"
+        iframe.marginwidth = "0" 
+        hyperlapse.appendChild(iframe);
 
-        self.hyperlapsePlayer = new YouTubePlayer('hyperlapse', {
-            height: hyperWidth * 0.56,
-            width: hyperWidth,
-            playerVars: {
-                'controls': 0,
-                'rel': 0,
-                'showinfo': 0,
-                'loop': 1,
-                'modestbranding': 1,
-                'playsinline': 1,
-                'start': 0,
-                'enablejsapi':1
-            }
-        });
-
-        self.hyperlapsePlayer.on('error', error => {
-
-            // console.log(error)
-
-        });
-
-        self.hyperlapsePlayer.on('ready', event => {
-
-            event.target.mute();
-
-        });
-
-        self.hyperlapsePlayer.on('stateChange', event => {
-
-            switch (event.data) {
-              case -1:
-                // console.log('unstarted');
-                break;
-              case 0:
-                // console.log('ended');
-                break;
-              case 1:
-                // console.log('play');
-                break;
-              case 2:
-                // console.log('paused');
-                break;
-              case 3:
-                 // console.log('buffering');
-                break;
-              case 5:
-                // console.log('video cued');
-                break;
-              default:
-               // console.log("Something is not right");
-            }
-
-        });
-
-        // https://developers.google.com/hyperlapse/iframe_api_reference#setPlaybackQuality
-
-        self.hyperlapsePlayer
-            .loadVideoById({
-                'videoId': '63wARkXeiRk',
-                'startSeconds': 0,
-                'suggestedQuality': 'large' ,
-           })
-            .then(() => {
-
-                // console.log("You tube initiated")
-                self.activate()
-
-            });
+        self.activate()
 
     }
 
@@ -612,7 +632,7 @@ export class Coastal {
         var locationIcon = L.icon({
             iconUrl: '<%= path %>/assets/location.png',
             iconSize:     [20, 20], // size of the icon
-            iconAnchor:   [10, 10], // point of the icon which will correspond to marker's location
+            iconAnchor:   [0, 0], // point of the icon which will correspond to marker's location
         });
 
         self.playhead = L.marker([-33.893446, 151.2737502], {
@@ -633,7 +653,7 @@ export class Coastal {
 
             self.stealth = false
 
-            //// console.log("Pause any currently playing videos")
+            //console.log("Pause any currently playing videos")
 
         });
 
@@ -650,13 +670,13 @@ export class Coastal {
         // Set the circle radius depending on zoom level
         self.map.on('zoomend', function(e) {
 
-            //// console.log("You finished zooming")
+            //console.log("You finished zooming")
 
         });
 
         self.map.on('click', function(e) {
 
-            //// console.log("You clicked on the map")
+            //console.log("You clicked on the map")
 
         });
 
@@ -682,33 +702,56 @@ export class Coastal {
 
             if (self.googledoc[i].distance_from_start > distance) {
 
-                var stage_distance = self.googledoc[i].stage_distance
-                var distance_from_start = (i>0) ? self.googledoc[i-1].distance_from_start : 0 ;
-                var video_start = (i>0) ? self.googledoc[i-1].x : 0 ; // video start
-                var duration = self.googledoc[i].duration // video duration
-                var pecentage = 100 / stage_distance * ( distance - distance_from_start )
-                var playhead = Math.floor(duration / 100 * pecentage) + video_start
-                var leg = (i===0) ? `${self.googledoc[0].LOCATION} to ${self.googledoc[1].LOCATION}` : `${self.googledoc[i-1].LOCATION} to ${self.googledoc[i].LOCATION}` ;
-
-                // If the user has selected a deadzone skip to the next waypoint
-                if (self.googledoc[i].SKIP) {
-
-                    distance = self.googledoc[i].distance_from_start
-
-                    longitudeLatitude = self.googledoc[i].intersection
-
-                    playhead = self.googledoc[i].x
-
-                    leg = `Skipped deadzone: ${self.googledoc[i].LOCATION} to ${self.googledoc[i+1].LOCATION}`
-
-                }
+                var currentWaypoint = ( i > 0 ) ? i - 1 : 0 ;
 
                 break
             }
 
         }
 
+        this.reposition(currentWaypoint, distance, longitudeLatitude)
+
+    }
+
+    reposition(waypoint, distance, longitudeLatitude) {
+
+        var self = this 
+        var stage_distance = self.googledoc[waypoint].stage_distance
+        var distance_from_start = self.googledoc[waypoint].distance_from_start
+        var video_start = self.googledoc[waypoint].x
+        var duration = self.googledoc[waypoint].duration
+        var pecentage = 100 / stage_distance * ( distance - distance_from_start )
+        var playhead = Math.floor(duration / 100 * pecentage) + video_start
+        var mps = self.googledoc[waypoint].mps
+        var next_waypoint = (waypoint < self.googledoc.length - 1) ? self.googledoc[waypoint+1].distance_from_start : self.total ;
+        var log = (waypoint < self.googledoc.length - 1) ? `${self.googledoc[waypoint].LOCATION} to ${self.googledoc[waypoint+1].LOCATION}` : `` ;
+
+        // If the user has selected a deadzone skip to the next waypoint
+        if (self.googledoc[waypoint].SKIP) {
+
+            distance = self.googledoc[waypoint+1].distance_from_start
+
+            longitudeLatitude = self.googledoc[waypoint+1].intersection
+
+            playhead = self.googledoc[waypoint+1].x
+
+            mps = self.googledoc[waypoint+1].mps
+
+            next_waypoint = (waypoint < self.googledoc.length - 2) ? self.googledoc[waypoint+2].distance_from_start : self.total ;
+
+            log = `Skipped deadzone: ${self.googledoc[waypoint].LOCATION} to ${self.googledoc[waypoint+1].LOCATION}`
+
+        }
+
+        self.currentWaypoint = waypoint
+
         self.distance_from_start = distance
+
+        self.next_waypoint = next_waypoint
+
+        self.mps = mps
+
+        console.log(`Waypoint: ${waypoint}\nCurrent stage: ${log}\nLatitude: ${longitudeLatitude[1]}\nLongitude: ${longitudeLatitude[0]}\nVideo: ${self.toolbelt.temporalFormat(playhead)}\nDistance from start: ${distance}\n----------------------------------\n\n`);
 
         self.playhead.setLatLng([longitudeLatitude[1],longitudeLatitude[0]], {
 
@@ -719,8 +762,6 @@ export class Coastal {
         self.database.blurb = self.default
 
         self.ractive.set('blurb', self.database.blurb)
-
-        //console.log(`Current stage: ${leg}\nLatitude: ${longitudeLatitude[1]}\nLongitude: ${longitudeLatitude[0]}\nVideo: ${self.toolbelt.temporalFormat(playhead)}\nDistance from start: ${distance}\n----------------------------------\n\n`);
 
         self.youTubePlayer.seekTo(playhead, true)
 

@@ -58,10 +58,18 @@
 		position: absolute;
 		top: 0px;
 		left: 0px;
-		bottom: 30px;
+		bottom: 0px;
 		width: 420px;
 		background: rgba(88, 88, 88, 0.8);
 		animation: slideIn .5s ease-in-out both;
+	}
+
+}
+
+.isDesktop .sidebar_container_left {
+
+	@include mq($from: desktop) {
+		bottom: 30px;
 	}
 
 }
