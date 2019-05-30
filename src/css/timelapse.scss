@@ -50,17 +50,43 @@
 	height: 30px;
 	border-radius: 15px;
 	cursor: pointer;
-	background-color: yellow;
 	float: right;
 	margin-right: 5px;
 }
 
 .progress_control_double_button {
-	width: 60px;
+	width: 30px;
 	height: 30px;
 	border-radius: 15px;
 	cursor: pointer;
-	background-color: yellow;
 	float: right;
 	margin-right: 5px;
+}
+
+.forward {
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 25px 25px;
+	background-image: url("<%= path %>/assets/forward.svg");
+}
+
+.back {
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 25px 25px;
+	background-image: url("<%= path %>/assets/back.svg");
+}
+
+.fast_forward {
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 25px 25px;
+	background-image: url("<%= path %>/assets/fast-forward.svg");
+}
+
+.fast_back {
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 25px 25px;
+	background-image: url("<%= path %>/assets/fast-back.svg");
 }
