@@ -592,7 +592,7 @@ export class Coastal {
         var self = this
 
         this.map = new L.Map('map', { 
-            renderer: L.canvas(),
+            //renderer: L.canvas(),
             center: new L.LatLng(self.latitude, self.longitude), 
             zoom: self.zoom,
             scrollWheelZoom: false,
@@ -612,7 +612,7 @@ export class Coastal {
             style: {
                 weight: 1,
                 opacity: 1,
-                color: '#ffb73d',
+                color: 'black',
                 fillOpacity: 1,
             }
         }).addTo(self.map);

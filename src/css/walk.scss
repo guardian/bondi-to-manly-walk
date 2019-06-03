@@ -266,14 +266,53 @@
 		height: 100%;
 		bottom: 0px;
 		position: relative;
-		background-repeat: no-repeat;
-		background-position: 50% 50%;
-		background-size: 135px 135px;
 		z-index: 2000;
 		position: fixed;
 		background-color: black;
 		opacity: 1;
-		/*background-image: url("https://interactive.guim.co.uk/embed/aus/2018/feb/mdb-multimedia/preloader/Webp.net-gifmaker.gif");*/
+	}
+
+	#interactive_preloader div {
+
+		width: 200px;
+		height: 200px;
+		margin: auto;
+		margin-top: 200px; 
+		position: relative;
+
+		.landmass{
+			fill:#FFB73D;
+		}
+
+		.harbour{
+			fill:#D0E7FF;
+		}
+
+		.track {
+			fill:none;
+			stroke:black;
+			stroke-width: 2;
+			stroke-dasharray: 2200;
+			stroke-dashoffset: 2200;
+			animation: dash 5s linear forwards infinite;
+		}
+
+		@keyframes dash {
+		  to {
+		    stroke-dashoffset: 0;
+		  }
+		}
+
+		span {
+			width: 200px;
+			margin-top: 10px;
+			text-align: center;
+			color:#FFB73D;
+			margin-left: 70px;
+			font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+		}
+
+
 	}
 
 	.editorial {
