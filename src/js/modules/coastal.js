@@ -73,6 +73,31 @@ export class Coastal {
 
         this.directory = (self.screenWidth > 960 ) ? "960" : (self.screenWidth > 640) ? "640" : "416" ;
 
+        this.slideshowpics = [{
+            image: "BRIDGE",
+            caption: "Completed during the height of the Depression, the Sydney Harbour Bridge is an iconic steel through arch bridge that connects the city’s north and south."
+        },{
+            image: "OPERA",
+            caption: "Formally opened in 1973, the Jørn Utzon-designed Sydney Opera House is a classic piece of modern expressionist architecture."
+        },{
+            image: "TARONGA",
+            caption: "Taronga Zoo"
+        },{
+            image: "LIGHTHOUSE",
+            caption: "The lighthouse"
+        },{
+            image: "KIRRIBILLI",
+            caption: "Kirribilli House"
+        },{
+            image: "FANNER",
+            caption: "Guardian Australia’s David Fanner cools off with an ice cream while walking the Bondi-to-Manly."
+        },{
+            image: "BENCH",
+            caption: "Look back at the entire Bondi-to-Manly journey from Fairfax Lookout."
+        }]
+
+        this.currentslideshowpic = 0
+
         this.database = {
 
             blurb: self.default,
@@ -91,11 +116,29 @@ export class Coastal {
 
                 current: '0:00'
 
+            },
+
+            lightbox: {
+
+                active: false,
+
+                image: self.slideshowpics[self.currentslideshowpic].image,
+
+                caption: self.slideshowpics[self.currentslideshowpic].caption,
+
+                current: self.currentslideshowpic + 1,
+
+                total: self.slideshowpics.length,
+
+                info: true,
+
             }
             
         }
 
         this.video = document.getElementById("video");
+
+        document.getElementById("slideshow_caption").innerHTML = "Slideshow: Tap on the image to view some of the Bondi to Manly highlights"
 
         this.progressInterval = window.setInterval(function(){ self.progress(); }, 1000);
 
@@ -259,6 +302,40 @@ export class Coastal {
 
         })
 
+        this.ractive.on( 'close', function ( context, direction, distance ) {
+
+            self.database.lightbox.active = false
+
+            self.ractive.set('lightbox', self.database.lightbox)
+
+        });
+
+        this.ractive.on( 'next', function ( context ) {
+
+            self.currentslideshowpic = (self.currentslideshowpic === self.slideshowpics.length - 1) ? 0 : self.currentslideshowpic + 1 ;
+
+            self.updateSlideshow()
+
+        });
+
+        this.ractive.on( 'previous', function ( context ) {
+
+            self.currentslideshowpic = (self.currentslideshowpic === 0) ? self.slideshowpics.length - 1 : self.currentslideshowpic - 1 ;
+
+            self.updateSlideshow()
+
+        });
+
+        this.ractive.on( 'info', function ( context ) {
+
+            self.database.lightbox.info = (self.database.lightbox.info) ? false : true ;
+
+            console.log(self.database.lightbox.info)
+
+            self.ractive.set('lightbox', self.database.lightbox)
+
+        });
+
         document.getElementById("video-skip-btn").addEventListener('click',function(event) {
 
             var target = document.getElementById("app")
@@ -267,7 +344,31 @@ export class Coastal {
 
         });
 
+        document.getElementById("slideshow").addEventListener('click',function(event) {
+
+            self.database.lightbox.active = true
+
+            self.ractive.set('lightbox', self.database.lightbox)
+
+        });
+
+
+
         this.createPlayer()
+
+    }
+
+    updateSlideshow() {
+
+        var self = this 
+
+        self.database.lightbox.current = self.currentslideshowpic + 1
+
+        self.database.lightbox.image = self.slideshowpics[self.currentslideshowpic].image
+
+        self.database.lightbox.caption = self.slideshowpics[self.currentslideshowpic].caption
+
+        self.ractive.set('lightbox', self.database.lightbox)
 
     }
 

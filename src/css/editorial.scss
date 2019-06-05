@@ -50,10 +50,47 @@
 .editorial_caption {
 	width: 100%;
     font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     font-size: 14px;
     color: #FFB73E;
 }
+
+#slideshow_caption {
+	box-sizing: border-box;
+	margin: auto;
+    width: 100%;
+    font-family: 'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+    font-size: 14px;
+    color: #FFB73E;
+    
+
+	@include mq($until: mobile) {
+		padding-right: 30px;
+		padding-left: 30px;
+		margin-bottom: 40px;
+	}
+
+	@include mq($from: mobile, $until: tablet) {
+		padding-right: 30px;
+		padding-left: 30px;
+		max-width: 600px;
+		margin-bottom: 40px;
+	}
+
+	@include mq($from: tablet, $until: desktop) {
+		max-width: 600px;
+	}
+
+	@include mq($from: desktop) {
+		max-width: 800px;
+	}
+
+
+
+}
+
+
+
 
 .flaneur {
 	text-align: center;

@@ -87,4 +87,29 @@
 
 	</div>
 
+	{{#if lightbox.active}}
+	<div class="lightbox lightbox--open" id="lightbox">
+		<div class="lightbox__viewer">
+			<table id="wrapper">
+				<tr>
+					<td><img id="lightbox__target" src="<%= path %>/assets/imgs/slideshow/1600/{{lightbox.image}}.jpg"></td>
+				</tr>
+			</table>
+		</div>
+		{{#if lightbox.info}}<div class="lightbox__caption--visible" id="lightbox__caption">
+			{{lightbox.caption}}
+		</div>
+		{{/if}}
+		<div class="lightbox__sidebar">
+			<div on-tap="['close']" class="lightbox__btn close"></div>
+			<div class="lightbox__progress">
+				<span>{{lightbox.current}}</span> <span>/</span> <span>{{lightbox.total}}</span>
+			</div>
+			<div on-tap="['next']" class="lightbox__btn next" id="next"></div>
+			<div on-tap="['previous']" class="lightbox__btn previous" id="previous"></div>
+			<div on-tap="['info']" class="lightbox__btn info" id="info"></div>
+		</div>
+	</div>
+	{{/if}}
+
 </div>

@@ -243,9 +243,9 @@
 		}
 
 		@include mq($from: desktop) {
-			font-size: 28px;
-			line-height: 32px;
-			margin-top: 20px;
+		    font-size: 24px;
+		    line-height: 32px;
+		    margin-top: 20px;
 		}
 		
 	}
@@ -321,26 +321,29 @@
 		.display {
 			box-sizing: border-box;
 			margin: auto;
-			padding-top: 40px;
-			
+		
 			@include mq($until: mobile) {
 				width: calc(100% - 20px);
-				padding: 20PX;
+				padding-left: 20px;
+				padding-right: 20px;
 			}
 
 			@include mq($from: mobile, $until: tablet) {
 				width: calc(100% - 20px);
-				padding: 20PX;
+				padding-left: 20px;
+				padding-right: 20px;
 			}
 
 			@include mq($from: tablet, $until: desktop) {
 				width: 100%;
 				max-width: 600px;
+				padding-top: 40px;
 			}
 
 			@include mq($from: desktop) {
 				width: 100%;
 				max-width: 800px;
+				padding-top: 40px;
 			}
 
 			p {
@@ -360,6 +363,37 @@
 			}
 
 		}
+
+
+		.slideshow_display {
+			box-sizing: border-box;
+			margin: auto;
+			
+			@include mq($until: mobile) {
+				width: calc(100% - 20px);
+				padding-left: 20px;
+				padding-right: 20px;
+
+			}
+
+			@include mq($from: mobile, $until: tablet) {
+				width: calc(100% - 20px);
+				padding-left: 20px;
+				padding-right: 20px;
+			}
+
+			@include mq($from: tablet, $until: desktop) {
+				width: 100%;
+				max-width: 600px;
+			}
+
+			@include mq($from: desktop) {
+				width: 100%;
+				max-width: 800px;
+			}
+
+		}
+
 
 	}
 
@@ -424,10 +458,28 @@
 	box-sizing: border-box;
 	position: relative;
 	width: 100%;
-	max-width: 850px;
+	
 	margin: auto;
 	padding: 20px;
 	margin-top: 20px;
+
+	@include mq($until: mobile) {
+
+	}
+
+	@include mq($from: mobile, $until: tablet) {
+
+	}
+
+	@include mq($from: tablet, $until: desktop) {
+		max-width: 650px;
+	}
+
+	@include mq($from: desktop) {
+		max-width: 850px;
+	}
+
+
 }
 
 .svg_container {
@@ -477,7 +529,7 @@
 	background-image: url("<%= path %>/assets/imgs/preloader.gif");
 }
 
-.video-overlay {
+.intro-overlay {
 	width: 100%;
 	height: 100%;
 	z-index: 99;
@@ -486,7 +538,6 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background-image: linear-gradient(to bottom, #2f262e, transparent);
-	opacity: 0.3
+	background-image: linear-gradient(to bottom, #4a5b79 0%, transparent 70%);
 
 }

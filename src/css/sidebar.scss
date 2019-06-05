@@ -13,7 +13,7 @@
 
 	box-sizing: border-box;
 	z-index: 10;
-	padding: 20px;
+	
 
 	@include mq($until: desktop) {
 		display: nonel
@@ -25,6 +25,7 @@
 		right: 0px;
 		bottom: 0px;
 		width: 420px;
+		padding: 20px;
 	}
 
 } 
@@ -349,7 +350,6 @@
 
 }
 
-
 #map {
 
 	@include mq($until: desktop) {
@@ -360,33 +360,32 @@
 		width: 100%;
 		padding-bottom: 100%;
 		height: 0px;
-		background-color: lightgrey;
 		border-radius: 50% 0 50% 50% ;
 		border: 1px solid white;
 		position: relative;
+		opacity: 0.8;
 	}
 
 }
 
 .auto-resizable-iframe {
-  width: 100%;
-  margin: 0px auto;
+	width: 100%;
+	margin: 0px auto;
 }
 
 .auto-resizable-iframe > div {
-  position: relative;
-  padding-bottom: 56.25%;
-  height: 0px;
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0px;
 }
 
 .auto-resizable-iframe iframe {
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
 }
-
 
 .isDesktop .youtube_overlay {
 	position: absolute;

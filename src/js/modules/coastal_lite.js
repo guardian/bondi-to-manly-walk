@@ -2,6 +2,8 @@ import { Toolbelt } from '../modules/toolbelt'
 import template from '../../templates/template.html'
 import Ractive from 'ractive'
 import ractiveTap from 'ractive-events-tap'
+import smoothscroll from 'smoothscroll-polyfill';
+smoothscroll.polyfill();
 
 export class Coastal {
 
@@ -19,8 +21,7 @@ export class Coastal {
 
         this.waypoints = this.googledoc.filter( (w) => w.EDITORIAL != "")
 
-        this.directory = (self.screenWidth > 960 ) ? "960" :
-                        (self.screenWidth > 640) ? "640" : "416" ;
+        this.directory = (self.screenWidth > 960 ) ? "960" : (self.screenWidth > 640) ? "640" : "416" ;
 
         this.database = {
 
@@ -32,8 +33,17 @@ export class Coastal {
 
             isDesktop: false,
 
-            directory: this.directory
+            directory: this.directory,
+
+            lightbox: {
+
+                active: false,
+
+            }
+
         }
+
+        document.getElementById("slideshow_caption").innerHTML = "Completed during the height of the Depression, the Sydney Harbour Bridge is an iconic steel through arch bridge that connects the city’s north and south."
 
         this.ractivate()
 
@@ -54,63 +64,19 @@ export class Coastal {
 
         this.ractive.on( 'panel', function ( context ) {
 
-            var sidebar = document.getElementById("sidebar");
-
-            sidebar.classList.toggle("hidebar");
-
-            var map = document.getElementById("map");
-
-            map.style.visibility = "hidden";
+            self.panel()
 
         });
 
         this.ractive.on('lite', function ( context ) {
 
-            var video = document.getElementById("video_walk");
-
-            if (video.paused) {
-
-                video.play()
-
-            } else {
-
-                if (video.currentTime > 0 && !video.ended && video.readyState > 2) {
-
-                    video.pause()
-
-                }
-
-            }
-
-            //console.log(video.paused, video.currentTime, video.ended, video.readyState)
-
+            self.lite()
 
         });
 
-
         this.ractive.on('play', function(context, lat, lng, secs, ends, editorial, image) {
 
-            console.log("Play video " + image)
-
-            self.database.blurb = editorial
-
-            self.database.image = image
-
-            self.ractive.set('blurb', self.database.blurb)
-
-            self.ractive.set('image', self.database.image)
-
-            var video = document.getElementById("video_walk");
-
-            video.src = `https://interactive.guim.co.uk/2019/05/bondi_to_manly/${self.directory}/${image}.mp4`
-            
-            video.type = `video/mp4`
-            
-            video.poster = "";
-
-            video.setAttribute(`playsinline`, true);
-
-            video.play();
+            self.player(lat, lng, secs, ends, editorial, image)
 
         })
 
@@ -124,6 +90,68 @@ export class Coastal {
 
         });
 
+    }
+
+    lite() {
+
+        var video = document.getElementById("video_walk");
+
+        if (video.paused) {
+
+            video.play()
+
+        } else {
+
+            if (video.currentTime > 0 && !video.ended && video.readyState > 2) {
+
+                video.pause()
+
+            }
+
+        }
+
+    }
+
+    panel() {
+
+        var sidebar = document.getElementById("sidebar");
+
+        sidebar.classList.toggle("hidebar");
+
+        var map = document.getElementById("map");
+
+        map.style.visibility = "hidden";
+
+    }
+
+    player(lat, lng, secs, ends, editorial, image) {
+
+        var self = this
+
+        self.database.blurb = editorial
+
+        self.database.image = image
+
+        self.ractive.set('blurb', self.database.blurb)
+
+        self.ractive.set('image', self.database.image)
+
+        var video = document.getElementById("video_walk");
+
+        video.src = `https://interactive.guim.co.uk/2019/05/bondi_to_manly/${self.directory}/${image}.mp4`
+        
+        video.type = `video/mp4`
+        
+        video.poster = "";
+
+        video.setAttribute(`playsinline`, true);
+
+        video.play();
+
+        if (self.screenWidth < 740) {
+
+            self.scrollTo()
+        }
 
     }
 
@@ -171,6 +199,25 @@ export class Coastal {
         iframe.marginheight = "0"
         iframe.marginwidth = "0" 
         hyperlapse.appendChild(iframe);
+
+    }
+
+    scrollTo() {
+
+        var self = this
+
+        var element = document.getElementById('walk_video');
+
+        setTimeout(function() {
+
+            var elementTop = window.pageYOffset + element.getBoundingClientRect().top
+
+            window.scroll({
+              top: elementTop,
+              behavior: "smooth"
+            });
+
+        }, 400);
 
     }
 
