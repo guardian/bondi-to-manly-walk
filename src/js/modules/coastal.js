@@ -33,7 +33,7 @@ export class Coastal {
 
         this.screenHeight = document.documentElement.clientHeight
 
-        this.default = "Select a popular Sydney location from the list, or expore the walk by dragging the map marker along the route. For privacy reasons small parts of the route have been skipped."
+        this.default = "Select a popular Sydney location from the list, or explore the walk by dragging the map marker along the route. For privacy reasons small parts of the route have been skipped."
 
         this.latitude = -33.841715
 
@@ -81,20 +81,46 @@ export class Coastal {
             caption: "Formally opened in 1973, the Jørn Utzon-designed Sydney Opera House is a classic piece of modern expressionist architecture."
         },{
             image: "TARONGA",
-            caption: "Taronga Zoo"
+            caption: "The 28-hectare Taronga Zoo is home to over 4,000 animals of 350 species."
         },{
             image: "LIGHTHOUSE",
-            caption: "The lighthouse"
+            caption: "The Grotto Point Light is an active lighthouse located on a rocky headland off the north side of Sydney Harbour."
         },{
             image: "KIRRIBILLI",
-            caption: "Kirribilli House"
-        },{
-            image: "FANNER",
-            caption: "Guardian Australia’s David Fanner cools off with an ice cream while walking the Bondi-to-Manly."
+            caption: "The Sydney residence of past, present and future Australian prime ministers is located just north of the Harbour Bridge."
         },{
             image: "BENCH",
             caption: "Look back at the entire Bondi-to-Manly journey from Fairfax Lookout."
+        },{
+            image: "BALMORAL",
+            caption: "With its promenade and Bathers Pavilion, Balmoral is known as Sydney’s Victorian-era ’fancy’ beach."
+        },{
+            image: "CREMOURNE",
+            caption: "Young teens skim rocks at off picturesque Cremorne Point."
+        },{
+            image: "WOODS",
+            caption: "Hiking through the undergrowth near Shell Cove, Sydney Harbour."
+        },{
+            image: "MANLY",
+            caption: "A busy afternoon outside of Manly Wharf."
+        },{
+            image: "MIDDLE",
+            caption: "The path leading up to Georges Head 1801 Battery, about halfway through the Bondi-to-Manly walk."
+        },{
+            image: "PLANK",
+            caption: "Walking the boards near Bradleys Head, on the north shore of Sydney Harbour."
+        },{
+            image: "REDLEAF",
+            caption: "Two walkers enjoy a stroll on the pontoon boardwalk that encases quiet Redleaf beach."
+        },{
+            image: "SOUTH",
+            caption: "The Hornby Lighthouse was built in 1858 following the wrecking of the Dunbar at the foot of South Head."
+        },{
+            image: "WIFE",
+            caption: "Sara Farnbach cooling off in the tranquil waters just north of Parriwi Lighthouse."
         }]
+
+        this.slideshowpics.shuffle()
 
         this.currentslideshowpic = 0
 
@@ -150,7 +176,7 @@ export class Coastal {
 
         var self = this
 
-        var height = document.documentElement.scrollHeight - 100
+        var height = document.documentElement.scrollHeight
 
         var lineFunction = d3.line()
                                 .x(function(d) { return d.x; })
@@ -176,8 +202,8 @@ export class Coastal {
                             { "x": 70,"percentage" : 60},
                             { "x": 330,"percentage" : 70}, 
                             { "x": 220,"percentage" : 80},
-                            { "x": 20,"percentage" : 90},
-                            { "x": 20,"percentage" : 100} ];
+                            { "x": 240,"percentage" : 90},
+                            { "x": 380,"percentage" : 100} ];
 
         for (var i = 0; i < lineDataLeft.length; i++) {
 
@@ -351,8 +377,6 @@ export class Coastal {
             self.ractive.set('lightbox', self.database.lightbox)
 
         });
-
-
 
         this.createPlayer()
 
@@ -972,13 +996,13 @@ export class Coastal {
 
         let video = self.calculateCover({width: self.screenWidth, height: self.screenHeight}, [16,9])
 
-        let half = window.innerHeight / 2
+        let xenon = window.innerHeight - 100
 
         this.requestAnimationFrame = requestAnimationFrame( function() {
 
-            self.pathway.attr("stroke-dashoffset", `${self.pathLength - window.pageYOffset - half}px`)
+            self.pathway.attr("stroke-dashoffset", `${self.pathLength - window.pageYOffset - xenon}px`)
 
-            self.pathwayRight.attr("stroke-dashoffset", `${self.pathLengthRight - window.pageYOffset - half}px`)
+            self.pathwayRight.attr("stroke-dashoffset", `${self.pathLengthRight - window.pageYOffset - xenon}px`)
 
             // If the user has scrolled past the intro video... pause the intro video and play the you tube video
             if (window.pageYOffset > video.height && self.video) {

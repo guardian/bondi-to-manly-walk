@@ -108,10 +108,17 @@
 	background-color: black;
 }
 
-
+.slideshow {
+	height: 0px;
+	margin-top: 20px;
+	padding-bottom: 56.5%;
+	background-size: cover;
+	background-image: url("<%= path %>/assets/imgs/editorial/CREMOURNE.jpg");
+}
  
 .isDesktop .slideshow {
 	display: inline-block;
+	background-image: url("<%= path %>/assets/imgs/slideshow/master.jpg");
 	cursor: pointer;
 	float: left;
 }

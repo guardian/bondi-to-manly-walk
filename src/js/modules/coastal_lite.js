@@ -43,7 +43,7 @@ export class Coastal {
 
         }
 
-        document.getElementById("slideshow_caption").innerHTML = "Completed during the height of the Depression, the Sydney Harbour Bridge is an iconic steel through arch bridge that connects the city’s north and south."
+        document.getElementById("slideshow_caption").innerHTML = "Young teens skim rocks at off picturesque Cremorne Point."
 
         this.ractivate()
 
