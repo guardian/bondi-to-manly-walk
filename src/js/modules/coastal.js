@@ -75,49 +75,49 @@ export class Coastal {
 
         this.slideshowpics = [{
             image: "BRIDGE",
-            caption: "Completed during the height of the Depression, the Sydney Harbour Bridge is an iconic steel through arch bridge that connects the city’s north and south."
+            caption: "Completed during the height of the Depression, the Sydney Harbour Bridge connects the city’s north and south"
         },{
             image: "OPERA",
-            caption: "Formally opened in 1973, the Jørn Utzon-designed Sydney Opera House is a classic piece of modern expressionist architecture."
+            caption: "Formally opened in 1973, the Jørn Utzon-designed Sydney Opera House is a classic piece of modern expressionist architecture"
         },{
             image: "TARONGA",
-            caption: "The 28-hectare Taronga Zoo is home to over 4,000 animals of 350 species."
+            caption: "The 28-hectare Taronga zoo is home to more than 4,000 animals of 350 species"
         },{
             image: "LIGHTHOUSE",
-            caption: "The Grotto Point Light is an active lighthouse located on a rocky headland off the north side of Sydney Harbour."
+            caption: "The Grotto Point Lighthouse is on a rocky headland on the north side of Sydney Harbour"
         },{
             image: "KIRRIBILLI",
-            caption: "The Sydney residence of past, present and future Australian prime ministers is located just north of the Harbour Bridge."
+            caption: "The Sydney residence of past, present and future Australian prime ministers is located just north of the Harbour Bridge"
         },{
             image: "BENCH",
-            caption: "Look back at the entire Bondi-to-Manly journey from Fairfax Lookout."
+            caption: "Look back at the entire Bondi-to-Manly journey from Fairfax lookout"
         },{
             image: "BALMORAL",
-            caption: "With its promenade and Bathers Pavilion, Balmoral is known as Sydney’s Victorian-era ’fancy’ beach."
+            caption: "With its promenade and Bathers Pavilion, Balmoral is Sydney’s Victorian-era ’fancy’ beach"
         },{
             image: "CREMOURNE",
-            caption: "Young teens skim rocks at off picturesque Cremorne Point."
+            caption: "Teenagers skim rocks at picturesque Cremorne Point"
         },{
             image: "WOODS",
-            caption: "Hiking through the undergrowth near Shell Cove, Sydney Harbour."
+            caption: "Hiking through the undergrowth near Shell Cove, Sydney Harbour"
         },{
             image: "MANLY",
-            caption: "A busy afternoon outside of Manly Wharf."
+            caption: "A busy afternoon at Manly Wharf"
         },{
             image: "MIDDLE",
-            caption: "The path leading up to Georges Head 1801 Battery, about halfway through the Bondi-to-Manly walk."
+            caption: "The path leading up to Georges Head 1801 Battery, about halfway through the Bondi-to-Manly walk"
         },{
             image: "PLANK",
-            caption: "Walking the boards near Bradleys Head, on the north shore of Sydney Harbour."
+            caption: "Walking the boards near Bradleys Head, on the north shore of Sydney Harbour"
         },{
             image: "REDLEAF",
-            caption: "Two walkers enjoy a stroll on the pontoon boardwalk that encases quiet Redleaf beach."
+            caption: "Two walkers enjoy a stroll on the pontoon boardwalk at quiet Redleaf beach"
         },{
             image: "SOUTH",
-            caption: "The Hornby Lighthouse was built in 1858 following the wrecking of the Dunbar at the foot of South Head."
+            caption: "The Hornby Lighthouse was built in 1858 following the wrecking of the Dunbar at the foot of South Head"
         },{
             image: "WIFE",
-            caption: "Sara Farnbach cooling off in the tranquil waters just north of Parriwi Lighthouse."
+            caption: "Sara Farnbach cooling off in the tranquil waters just north of Parriwi Lighthouse"
         }]
 
         this.slideshowpics.shuffle()
@@ -164,7 +164,7 @@ export class Coastal {
 
         this.video = document.getElementById("video");
 
-        document.getElementById("slideshow_caption").innerHTML = "Slideshow: Tap on the image to view some of the Bondi to Manly highlights"
+        document.getElementById("slideshow_caption").innerHTML = "Slideshow: tap on the image to view some of the Bondi-to-Manly highlights"
 
         this.progressInterval = window.setInterval(function(){ self.progress(); }, 1000);
 
