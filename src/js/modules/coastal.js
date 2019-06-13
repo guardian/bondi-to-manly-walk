@@ -389,11 +389,9 @@ export class Coastal {
 
             self.loadedInterval = null
                 
-            console.log(`This top video is ready to play ${self.video.readyState}`)
+            console.log(`This intro video is ready`)
 
             self.flightInterval = window.setInterval(function() { self.flichtCheck(); }, 200);
-
-            self.preloader.style.display = "none" ; 
 
         }
 
@@ -419,21 +417,21 @@ export class Coastal {
 
                 self.renderLoop()
 
+                self.preloader.style.display = "none" ; 
+
             }
 
         } else {
 
             self.retry = self.retry + 1
 
-            if (self.retry === 20) {
+            if (self.retry === 40) {
 
                 //YouTubePlayer
 
                 console.log("Reboot the you tube player")
 
-                self.createPlayer()
-
-                self.retry = 0
+                location.reload();
 
             }
 

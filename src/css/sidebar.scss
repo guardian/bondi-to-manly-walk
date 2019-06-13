@@ -411,6 +411,16 @@
 	}
 
 
+
+}
+
+.isDesktop .youtube_overlay.video_pause {
+
+	@include mq($from: desktop) {
+		background-size: cover;
+		background-image: url("<%= path %>/assets/imgs/posters/bondi_1280.jpg");
+	}
+
 }
 
 .device .outube_overlay {
@@ -482,16 +492,23 @@
 }
 
 
-.video_pause {
+.video_pause:before {
+    width: 70px;
+    content: " ";
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiI+PGNpcmNsZSBmaWxsPSIjZmIwIiBjeD0iMTYiIGN5PSIxNiIgcj0iMTYiLz48cGF0aCBmaWxsPSIjMzMzIiBkPSJNMTQgMjJoLTNWMTEuMWwxLTEuMWgydjEybTQtMTJoM3YxMC45TDIwIDIyaC0yVjEwIi8+PC9zdmc+);
+    position: absolute;
+    left: calc(50% - 35px);
+    top: calc(50% - 35px);
+    height:70px;
 	background-repeat: no-repeat;
     background-position: 50% 50%;
-    background-size: 0px 0px;
-	background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiI+PGNpcmNsZSBmaWxsPSIjZmIwIiBjeD0iMTYiIGN5PSIxNiIgcj0iMTYiLz48cGF0aCBmaWxsPSIjMzMzIiBkPSJNMTQgMjJoLTNWMTEuMWwxLTEuMWgydjEybTQtMTJoM3YxMC45TDIwIDIyaC0yVjEwIi8+PC9zdmc+);
+    background-size: 50px 50px;
 	-webkit-animation: animatedVideoPause 1s;
 	-moz-animation: animatedVideoPause 1s;
 	-o-animation: animatedVideoPause 1s;
 	animation: animatedVideoPause 1s;
 }
+
 
 @-webkit-keyframes animatedVideoPause {
 	0% {
@@ -520,10 +537,10 @@
 		background-size: 70px 70px;
 	}
 	50% {
-		background-size: 50px 50px;
+		background-size: 40px 40px;
 	}
 	100% {
-		background-size: 0px 0px;
+		background-size: 50px 50px;
 	}
 }
 @keyframes animatedVideoPause {
@@ -531,10 +548,10 @@
 		background-size: 70px 70px;
 	}
 	50% {
-		background-size: 50px 50px;
+		background-size: 40px 40px;
 	}
 	100% {
-		background-size: 0px 0px;
+		background-size: 50px 50px;
 	}
 }
 
