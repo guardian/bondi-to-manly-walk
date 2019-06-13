@@ -129,7 +129,7 @@
 					</div>
 
 					{{#progress}}
-					<div class="progress_container">
+					<div class="progress_container" style="visibility: {{#if initiated}}visible{{else}}hidden{{/if}}">
 						<div class="progress_bar_container">
 							<div class="progress_bar" style="width: {{this.percentage}}%"></div>
 						</div>

@@ -14,7 +14,7 @@ var app = {
 
     app.isMobile = app.mobileCheck();
 
-    el.src = (app.isMobile || app.isApp) ? '<%= path %>/lite.js' : '<%= path %>/app.js' ;
+    el.src = (app.isMobile || app.isApp) ? `<%= path %>/lite.js?t=${new Date().getTime()}` : `<%= path %>/app.js?t=${new Date().getTime()}` ;
 
     document.body.appendChild(el);
 

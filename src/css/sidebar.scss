@@ -7,6 +7,13 @@
 .multimedia_container {
 	width: 100%;
 	display: inline-block;
+	background-repeat: no-repeat;
+	background-position: 50% 50%;
+	background-size: 100px 100px;
+	opacity: 1;
+	background-image: url("<%= path %>/assets/imgs/preloader.gif");
+	background-color: darkgrey;
+
 }
 
 .sidebar_container_right {
@@ -29,6 +36,9 @@
 	}
 
 } 
+
+
+
 
 .sidebar_container_left {
 
@@ -73,6 +83,10 @@
 		bottom: 30px;
 	}
 
+}
+
+.sidebar {
+	visibility: hidden;
 }
 
 .hidebar {
@@ -390,7 +404,7 @@
 	left: 0px;
 	width: 100%;
 	height: 100%;
-	background-color: rgba(56,56,56, 1);
+	background-color: rgba(56,56,56, 0);
 
 	@include mq($until: desktop) {
 		display: none;

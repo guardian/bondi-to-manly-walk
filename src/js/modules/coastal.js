@@ -20,6 +20,8 @@ export class Coastal {
 
 		var self = this
 
+        this.retry = 0
+
         this.toolbelt = new Toolbelt()
 
         this.status = null
@@ -67,8 +69,6 @@ export class Coastal {
         this.current = 0
 
         this.currentWaypoint = 0
-
-        this.youTubePlayerInitiated = false
 
         this.waypoints = this.googledoc.filter(function(value, index) {
 
@@ -135,7 +135,7 @@ export class Coastal {
 
             waypoints: self.waypoints,
 
-            initiated: true,
+            initiated: false,
 
             isDesktop: true,
 
@@ -288,7 +288,6 @@ export class Coastal {
   
         // //console.log("path length right: " + this.pathLengthRight); //prints how long the stroke is
 
-        self.renderLoop()
 
     }
 
@@ -392,14 +391,53 @@ export class Coastal {
                 
             console.log(`This top video is ready to play ${self.video.readyState}`)
 
+            self.flightInterval = window.setInterval(function() { self.flichtCheck(); }, 200);
+
             self.preloader.style.display = "none" ; 
 
-            self.playVideo()
-
-            self.config();
-            
-
         }
+
+    }
+
+    flichtCheck() {
+
+        var self = this
+
+        if ( Number.isInteger(self.status)) {
+
+            if (self.status == 1 || self.status == 2) {
+
+                console.log("The youtube video is ready")
+
+                clearInterval(self.flightInterval);
+
+                self.flightInterval = null
+
+                self.config();
+
+                self.playVideo()
+
+                self.renderLoop()
+
+            }
+
+        } else {
+
+            self.retry = self.retry + 1
+
+            if (self.retry === 20) {
+
+                //YouTubePlayer
+
+                console.log("Reboot the you tube player")
+
+                self.createPlayer()
+
+                self.retry = 0
+
+            }
+
+        }        
 
     }
 
@@ -424,6 +462,8 @@ export class Coastal {
         });
 
         this.progressInterval = window.setInterval(function(){ self.progress(); }, 1000);
+
+        self.hyperlapse()
 
     }
 
@@ -593,7 +633,7 @@ export class Coastal {
 
             document.getElementById("walk_video").setAttribute("playsinline", true);
 
-            self.youTubePlayer.seekTo(0)
+            self.youTubePlayer.seekTo(0, true)
 
         });
 
@@ -642,7 +682,7 @@ export class Coastal {
             .loadVideoById({
                 'videoId': self.url,
                 'startSeconds': 0,
-           }).then(() => self.hyperlapse());
+           });
 
 
     }
@@ -1039,13 +1079,8 @@ export class Coastal {
 
         let video = self.calculateCover({width: self.screenWidth, height: self.screenHeight}, [16,9])
 
-        let xenon = window.innerHeight - 100
+        let xenon = window.innerHeight / 3
 
-        var elem = document.getElementById('walk_video');
-
-        var elemRect = elem.getBoundingClientRect();
-
-        var elemViewportOffset = elemRect.top;
 
         this.requestAnimationFrame = requestAnimationFrame( function() {
 
@@ -1069,11 +1104,15 @@ export class Coastal {
                 }
 
                 // You tube video
-                if (self.status==2 && self.firstrun) {
+                if (self.firstrun) {
 
                     self.firstrun = false
 
-                    self.youTubePlayer.playVideo();
+                    console.log("Play the video from the start")
+
+                    //self.youTubePlayer.playVideo();
+
+                    self.youTubePlayer.seekTo(1, true)
 
                 }
 
@@ -1125,6 +1164,5 @@ export class Coastal {
         }, 400);
 
     }
-
 
 }

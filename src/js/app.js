@@ -6,7 +6,7 @@ let social = {
 
     title : "The Bondi to Manly walk",
 
-    url : "https://www.theguardian.com/australia-news/ng-interactive/2019/may/18/live-results-for-the-2019-australian-election-track-the-votes",
+    url : "https://www.theguardian.com/australia-news/ng-interactive/2019/jun/14/bondi-to-manly-sydneys-spectacular-harbour-walk",
 
     fbImg : "",
 
