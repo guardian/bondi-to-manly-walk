@@ -786,10 +786,7 @@ export class Coastal {
 
             (document.getElementById("audio-switch").checked==false) ? self.youTubePlayer.mute() : self.youTubePlayer.unMute() ;
 
-            (document.getElementById("audio-switch").checked==false) ? self.hyperlapsePlayer.mute() : self.hyperlapsePlayer.unMute() ;
-
         });
-
 
         this.initMap()
 
