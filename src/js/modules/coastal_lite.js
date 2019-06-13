@@ -20,7 +20,7 @@ export class Coastal {
 
         this.screenWidth = document.documentElement.clientWidth
 
-        this.default = "Click on a popular Sydney location"
+        this.default = "Click on a location to see highlights from the walk"
 
         this.waypoints = this.googledoc.filter( (w) => w.EDITORIAL != "")
 
