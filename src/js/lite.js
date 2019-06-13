@@ -1,6 +1,6 @@
 import loadJson from '../components/load-json/'
 import { Coastal } from './modules/coastal_lite'
-import share from './modules/share'
+
 
 let social = {
 
@@ -25,6 +25,6 @@ waypoints.classList.add("device");
 loadJson('<%= path %>/assets/waypoints.json?t=' + new Date().getTime())
 	.then((resp) => {
 		console.log("Lite version")
-		new Coastal(resp)
+		new Coastal(resp, social)
 	})
 

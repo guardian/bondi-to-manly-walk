@@ -3,17 +3,20 @@ import template from '../../templates/lite.html'
 import Ractive from 'ractive'
 import ractiveTap from 'ractive-events-tap'
 import smoothscroll from 'smoothscroll-polyfill';
+import share from '../modules/share'
 smoothscroll.polyfill();
 
 export class Coastal {
 
-	constructor(data) {
+	constructor(data, social) {
 
 		var self = this
 
         this.toolbelt = new Toolbelt()
 
         this.googledoc = data
+
+        this.social = social
 
         this.screenWidth = document.documentElement.clientWidth
 
@@ -85,6 +88,15 @@ export class Coastal {
             self.player(lat, lng, secs, ends, editorial, image)
 
         })
+
+        this.ractive.on( 'social', ( context, channel ) => {
+
+            let shared = share(self.social.title, self.social.url, self.social.fbImg, self.social.twImg, self.social.twHash, self.social.message);
+        
+            shared(channel);
+
+        });
+
 
         var video = document.getElementById("video_walk");
 

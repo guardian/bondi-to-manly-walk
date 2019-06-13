@@ -9,19 +9,22 @@ import YouTubePlayer from 'youtube-player';
 import Ractive from 'ractive'
 import ractiveTap from 'ractive-events-tap'
 import smoothscroll from 'smoothscroll-polyfill';
+import share from '../modules/share'
 smoothscroll.polyfill();
 
 // https://preview.gutools.co.uk/global/ng-interactive/2019/apr/06/bondi-to-manly-walk
 
 export class Coastal {
 
-	constructor(data) {
+	constructor(data, social) {
 
 		var self = this
 
         this.toolbelt = new Toolbelt()
 
         this.status = null
+
+        this.social = social
 
         this.stealth = true
 
@@ -163,6 +166,8 @@ export class Coastal {
             }
             
         }
+
+        this.onYouTubeIsReady = false
 
         this.ractivate()
 
@@ -358,6 +363,15 @@ export class Coastal {
 
         });
 
+        this.ractive.on( 'social', ( context, channel ) => {
+
+            let shared = share(self.social.title, self.social.url, self.social.fbImg, self.social.twImg, self.social.twHash, self.social.message);
+        
+            shared(channel);
+
+        });
+
+
         this.video = document.getElementById("video");
 
         this.createPlayer()
@@ -371,22 +385,31 @@ export class Coastal {
         var self = this
 
         if ( self.video.readyState === 4 ) {
-                
-            console.log("This video is ready to play")
 
-            self.video.play()
+            clearInterval(self.loadedInterval); 
+
+            self.loadedInterval = null
+                
+            console.log(`This video is ready to play ${self.video.readyState}`)
+
+            self.playVideo()
+
+            //this.finalTests = window.setInterval(function(){ self.checklist(); }, 1000);
 
             self.config();
             
-            clearInterval(self.loadedInterval);   
-
-            self.loadedInterval = null
 
         } else {
 
             console.log("The video is loading")
 
         }
+
+    }
+
+    checklist() {
+
+        console.log("Beep")
 
     }
 
@@ -633,8 +656,8 @@ export class Coastal {
             .loadVideoById({
                 'videoId': self.url,
                 'startSeconds': 0,
-                'suggestedQuality': 'large' ,
            }).then(() => self.hyperlapse());
+
 
     }
 
@@ -1034,23 +1057,32 @@ export class Coastal {
 
         let xenon = window.innerHeight - 100
 
+        var elem = document.getElementById('walk_video');
+
+        var elemRect = elem.getBoundingClientRect();
+
+        var elemViewportOffset = elemRect.top;
+
         this.requestAnimationFrame = requestAnimationFrame( function() {
 
             self.pathway.attr("stroke-dashoffset", `${self.pathLength - window.pageYOffset - xenon}px`)
 
             self.pathwayRight.attr("stroke-dashoffset", `${self.pathLengthRight - window.pageYOffset - xenon}px`)
 
+    
+            console.log(`${window.pageYOffset} | ${video.height / 2}`)
+
             // If the user has scrolled past the intro video... pause the intro video and play the you tube video
-            if (window.pageYOffset > video.height && self.video) {
+            if (window.pageYOffset > video.height / 2) {
 
-                // Intro video
-                /*
-                if (!self.video.paused) {
+                if (self.video.readyState === 4) {
 
-                    self.video.pause()
+                    if (!self.video.paused) {
 
+                        self.video.pause()
+
+                    }
                 }
-                */
 
                 // You tube video
                 if (self.status==2 && self.firstrun) {
@@ -1064,20 +1096,31 @@ export class Coastal {
 
             } else {
 
-                // Intro video
-                /*
-                if (self.video.paused) {
+                if (self.video.readyState === 4) {
 
-                    self.video.play()
+                    if (self.video.paused) {
+
+                        self.playVideo()
+
+                    }
 
                 }
-                */
 
             }
 
             self.renderLoop()
 
         })
+    }
+
+    async playVideo() {
+
+        var self = this
+        try {
+            await self.video.play();
+        } catch(err) {
+
+        }
     }
 
     scrollTo(element, extra=0) {

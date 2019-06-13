@@ -17,11 +17,17 @@
 			<div class="sixteen_by_nine">
 				<div class="intro-overlay"></div>
 				<div class="video-wrapper">
-					<video autoplay="" id="video" loop="true">
-						<source media="all and (max-width: 960px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_960.mp4" type="video/mp4"> 
-						<source media="all and (max-width: 640px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_640.mp4" type="video/mp4"> 
-						<source media="all and (max-width: 416px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_416.mp4" type="video/mp4">
-						<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_1280.mp4" type="video/mp4">
+					<video id="video" loop="true">
+					<source media="all and (max-width: 960px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_960.mp4" type="video/mp4">
+					<source media="all and (max-width: 960px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_960.ogv" type="video/ogv">
+					<source media="all and (max-width: 960px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_960.webm" type="video/webm">
+					<source media="all and (max-width: 640px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_640.mp4" type="video/mp4"> 
+					<source media="all and (max-width: 640px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_640.ogv" type="video/ogv">
+					<source media="all and (max-width: 640px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_640.webm" type="video/webm">
+					<source media="all and (max-width: 416px)" src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_416.mp4" type="video/mp4">
+					<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_1280.mp4" type="video/mp4">
+					<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_1280.ogv" type="video/ogv">
+					<source src="https://interactive.guim.co.uk/2019/05/bondi_to_manly/dashed/intro_1280.webm" type="video/webm">
 					</video>
 				</div>
 			</div>
@@ -37,8 +43,8 @@
 				<div class="display">
 					<div class="share-buttons">
 						<div class="social_isolation">
-							<button class="interactive-share" data-network="facebook"></button> 
-							<button class="interactive-share" data-network="twitter"></button>
+							<button class="interactive-share" on-tap="['social', 'facebook']" data-network="facebook"></button> 
+							<button class="interactive-share" on-tap="['social', 'twitter']" data-network="twitter"></button>
 						</div>
 					</div>
 					<div class="bylines">
@@ -54,7 +60,7 @@
 
 		<h2 class="flaneur">Interactive video: experience the Bondi-to-Manly walk</h2>
 
-		<div id ="app" class="contained">
+		<div id="app" class="contained">
 
 			<div class="sticky_box">
 
