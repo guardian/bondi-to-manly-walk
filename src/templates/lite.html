@@ -1,0 +1,189 @@
+	<div class="sticky_box">
+
+		<div class="svg_container" id="svg_container_left"></div>
+
+		<div class="svg_container" id="svg_container_right"></div>
+
+		<div class="nav-wrap" id="nav-wrap">
+			<div class="nav-label"></div>
+			<div class="nav-bar" id="audio_mute_switch">
+				<div class="audio-switch-box">
+					<label class="switch"><input id="audio-switch" type="checkbox"> <span class="slider round"></span></label>
+				</div>
+			</div>
+		</div>
+
+		<div id="intro_container">
+			<div class="sixteen_by_nine">
+				<div class="video-wrapper">
+					<iframe width="{{hyperWidth}}" marginheight="0" marginwidth="0" scrolling="no" height="{{hyperHeight}}" frameborder="0" src="https://www.youtube.com/embed/63wARkXeiRk?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=https://youtubeembedcode.com"></iframe>
+				</div>
+			</div>
+
+			<div class="editorial_caption hypercaption">
+				Travel from Bondi to Manly in under five minutes
+			</div>
+
+			<div class="titles">
+				<h1><span>Bondi-to-Manly:</span><br>
+				Sydney’s spectacular harbour walk</h1>
+				<h3>Follow the 80km coastal trek that links two of Australia’s favourite beaches and takes in the city's iconic landmarks</h3>
+			</div>
+			<div class="video-skip-btn" id="video-skip-btn"></div>
+		</div>
+		<div class="displayed">
+			<div class="editorial">
+				<div class="display">
+					<div class="share-buttons">
+						<div class="social_isolation">
+							<button class="interactive-share" data-network="facebook"></button> 
+							<button class="interactive-share" data-network="twitter"></button>
+						</div>
+					</div>
+					<div class="bylines">
+						<a href='https://www.theguardian.com/profile/david-fanner'>David Fanner</a>, 
+						<a href='https://www.theguardian.com/profile/nick-evershed'>Nick Evershed</a>, 
+						<a href='https://www.theguardian.com/profile/andy-ball'>Andy Ball</a> and 
+						<a href='https://www.theguardian.com/profile/miles-martignoni'>Miles Martignoni</a>
+					</div>
+					<p><span class="drop-cap"><span class="drop-cap__inner">W</span></span>inding around Sydney’s world-famous harbour, the Bondi-to-Manly is <a href="https://www.bonditomanly.com/">an epic new coastal walk</a> that links two of Australia’s favourite beaches. Guardian Australia's head of multimedia, <a href='https://www.theguardian.com/profile/david-fanner'>David Fanner</a>, walked the entire route.</p>
+				</div>
+			</div>
+		</div>
+
+		<h2 class="flaneur">Interactive video: experience the Bondi-to-Manly walk</h2>
+
+		<div id ="app" class="contained">
+
+			<div class="sticky_box">
+
+				<div class="multimedia_container">
+
+					<div class="walk_container">
+
+						<div class="auto-resizable-iframe">
+
+						  <div>
+
+						    <div id="walk_video">
+						    	{{#if isDesktop}}{{else}}<video on-tap="['lite']" poster="<%= path %>/assets/imgs/posters/bondi_{{directory}}.jpg" id="video_walk" playsinline="true" muted></video>{{/if}}
+						    </div>
+
+						  </div>
+
+						</div>
+
+						<div on-tap="['controller']" id="overlay" class="youtube_overlay"></div>
+
+					</div>
+
+					<div id="sidebar" class="sidebar_container_left" style="visibility: {{#if initiated}}visible{{else}}hidden{{/if}}">
+
+						<div id="close" on-tap="['panel']"></div>
+
+						<div class="sidebar_editorial_hero_image">{{#if isDesktop}}{{#if image}}<img src="<%= path %>/assets/imgs/panel/{{image}}.jpg">{{/if}}{{/if}}</div>
+
+						<div class="sidebar_editorial_container">{{blurb}}</div>
+
+						<div class="sidebar_navigation_container">
+
+							<ul>
+
+			                {{#each waypoints}}
+
+								<li class="waypoint_container" on-tap="['play', LATITUDE, LONGITUDE, x, y, EDITORIAL, IMAGE, id]">
+
+								<div class="waypoint_image">
+
+									<img src="<%= path %>/assets/imgs/thumbnails/{{IMAGE}}.png">
+
+								</div>
+
+								<span>{{LOCATION}}</span>
+
+								</li>
+								
+			                {{/each}}
+
+							</ul>
+
+						</div>
+
+					</div>
+
+					<div class="sidebar_container_right" style="visibility: {{#if initiated}}visible{{else}}hidden{{/if}}">
+
+						<div class="map_container">
+
+							<div id="map"></div>
+
+						</div>
+
+					</div>
+
+					{{#progress}}
+					<div class="progress_container">
+						<div class="progress_bar_container">
+							<div class="progress_bar" style="width: {{this.percentage}}%"></div>
+						</div>
+						<div class="progress_control_container">
+
+							<div class="progress_control_display">{{this.current}}</div>
+
+							<div on-tap="['skip','forward', '60']" class="progress_control_double_button fast_forward"></div>
+
+							<div on-tap="['skip','forward', '20']" class="progress_control_single_button forward"></div>
+
+							<div on-tap="['skip','back', '20']" class="progress_control_single_button back"></div>
+
+							<div on-tap="['skip','back', '60']" class="progress_control_double_button fast_back"></div>
+						
+						</div>
+					</div>
+					{{/progress}}
+
+				</div>
+
+			</div>
+
+		</div>
+
+		<div class="displayed">
+			<div class="editorial">
+				<div class="display">
+					<p>Long-distance urban walks like the 80km Bondi-to-Manly are pretty rare. The only other multi-day hike through built-up areas I’ve experienced is the Camino de Santiago in the north of Spain. The sense of spirituality (or at the least self-discovery) that defines the Camino is in less effect traipsing through some of Australia’s richest suburbs ... but there is <a href="https://www.theguardian.com/travel/2017/nov/05/happy-isolation-hiking-the-ridges-of-the-larapinta-trail">something about committing to a long-distance hike</a> and leaving the day-to-day behind that clears the mind, and there are stretches throughout the Bondi-to-Manly that are absolute magic.</p>
+					<p>My first tip – call it a hot tip – to those planning to walk the Bondi-to-Manly is not to do it during a heatwave. I did, and walking in temperatures hovering between 32C and 37C with high humidity and little wind makes for a sweaty, stifling experience ... although the blue skies throughout look great on camera.</p>
+					<p>I started my walk just after sunrise on a Monday morning with my feet in the surf at the south end of Bondi beach.</p>
+					<p>This strip of sand holds a dear place in the Australian consciousness – books and songs have been written about it, we have Bondi Rescue, the Bondi Hipsters and a Bondi Vet on our TV screens, even <a href="https://youtu.be/aCzfOO0SCHI?t=142">Heath Ledger famously found the surf at Bondi irresistible in Two Hands</a>.</p>
+					<p>Without any of the weekend crowds to deal with, I walked the length of the beach with the waves breaking just over my ankles. It’s a hell of an impressive start to the hike, but Bondi is just the first of a remarkable 36 beaches or coves that you pass on your trip around the harbour.</p>
+
+					<p>With such a long list of possible spots for a dip, the only problem is you will want to stop and swim at every one of them. Bobbing up and down in the clear waters of Hayes Street beach in Neutral Bay, it’s easy to forget you’re in the middle of Australia’s biggest city.</p>
+					<p>Of course, clear water doesn’t necessarily mean <em></em>clean water. <a href="https://www.theguardian.com/environment/video/2018/apr/16/welcome-to-australias-plastic-beach-video">Guardian Australia has documented elsewhere the depressing amount of plastic pollution</a> in the harbour. But compared with other urban beaches around the world, Sydney Harbour has no peer.</p>
+					<p>About 60km of the walk is on public land, with the rest on suburban footpaths. There is no clear, overarching "trail" to follow, but finding your way is easy – if you cross two bridges and keep the ocean on your right you will eventually make it to Manly.</p>
+					<div class="editorial_image"><img src="<%= path %>/assets/imgs/editorial/THE_GAP.jpg"></div>
+					<div class="editorial_caption">
+						Looking north towards the high sandstone cliffs that create The Gap near Watsons Bay
+					</div>
+					<h2>The walk</h2>
+					<p>I divided the approximately 80km between Bondi and Manly into four days:</p>
+					<p><strong>Day one</strong> starts in Bondi and finishes at the delightful old-timey pontoon beach of Redleaf, just west of Point Piper. Stunning sandstone cliffs plunge into the ocean at Diamond Bay and The Gap as you make your way around South Head. You will also pass Australia’s oldest lighthouse, the magnificent Macquarie Lighthouse at Dunbar Head. There are plenty of beautiful places to pull up for a swim, including Shell Cove and the unsettlingly named Shark Cove.</p>
+					<p><strong>Day two</strong> is the big day for iconic architecture as you get up close and personal with Australia’s two most famous human-made structures – the Opera House and Harbour Bridge. There is a palpable sense of ingenuity, creativity and audacity filling the Opera House’s gigantic ceramic sails that is still present 50 years after its completion. Surely, this is the pinnacle of modern expressionist architecture, ageless and magnificent.</p>
+					<p>Crossing the Harbour Bridge on foot is a longer process that you might think. You need to make your way through Sydney’s old quarter, known as The Rocks, and then up three flights of stairs. It’s 10 minutes before you even reach the sandstone blocks that mark the bridge proper. Despite the high levels of fencing and security, it is a windy and thrilling 20-minute walk to the other side of the bridge, known locally as the "Coat Hanger".</p>
+
+					<p>I started <strong>day three</strong> at Taronga zoo. (I skipped a bit from Cremorne Point to Taronga, but I figure if you’ve seen one outrageously rich eastern Sydney suburb, you’ve seen ’em all.) The 21km (or so) covered today is probably the most well-established of all the days of the BtM, with many Sydneysiders covering the Taronga-to-Manly section on a sunny weekend day. The landscape is remarkably varied as you walk through dense bush around Middle Head, enjoy the promenade of Balmoral, Sydney's fancy Victorian-era beach, and step back thousands of years into the past while appreciating the Indigenous rock art at Grotto Point.</p>
+					<p><strong>Day four</strong> is about tying together loose ends for the BtM completists. From Manly beach you head out past Shelly beach to North Head, but the hot walk up the exposed trails of the head is worth it for the final view at Fairfax lookout. From here you can almost see the entire 80km journey laid out with new meaning in front of you.</p>
+					<h2>Pack light, bring sunscreen</h2>
+					<p>One of the greatest aspects of the Bondi-to-Manly as a multi-day hike is that you don’t have to weigh yourself down with gigantic backpack. There are no real camping options available, so you will have to find accommodation each night. Living in Sydney, I caught a bus, train or ferry home at the end of each day’s hike, but smart hoteliers take note: if this walk takes off there are substantial profits to be made in branding yourself as part of the Bondi-to-Manly experience.</p>
+					<div class="editorial_image_right"><img src="<%= path %>/assets/imgs/editorial/IMG-20190117-WA0000.jpg"></div>
+					<div class="editorial_caption_right">
+						Guardian Australia’s David Fanner cools off with an ice-cream while walking the Bondi-to-Manly.
+					</div>
+					<p>Keeping my pack as light as possible, I only carried a litre of water and relied on the numerous bubblers (water fountains) that dot the parks and paths I crossed to stay hydrated. I packed a couple of sandwiches each day but you could just as easily feed yourself at one of the hundreds of waterfront cafes, pubs or restaurants that line your path.</p>
+					<p>Whatever you do, don’t leave home without a broad-brimmed hat and lots of sunscreen. The Australian sun is unforgiving.</p>
+					<h2>Private beaches</h2>
+					<p>There are places on the harbour that – I imagine – are incredibly beautiful, but I can’t tell you for certain as they’re inaccessible to the average punter. Lady Martin’s beach on Point Piper, large sections of Kirribilli, Kurraba, Darling Point, to name but a few, all close themselves off to the outside world for the private enjoyment of the multimillionaires who’ve paid a fortune for their harbour views and don’t particularly want to share them.</p>
+					<p>As national myths go, the idea of egalitarianism is one of our better ones. I’ve been rather successfully socially conditioned to believe we should be able to equally enjoy the natural wonders of this country, and the idea of private beaches flies directly in the face of what I feel is a big part of being Australian.</p>
+				</div>
+			</div>
+		</div>
+	</div>

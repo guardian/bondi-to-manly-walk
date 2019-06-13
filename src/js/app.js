@@ -18,13 +18,6 @@ let social = {
 
 };
 
-var shareFn = share(social.title, social.url, social.fbImg, social.twImg, social.twHash, social.message);
-
-[].slice.apply(document.querySelectorAll('.interactive-share')).forEach(shareEl => {
-    var network = shareEl.getAttribute('data-network');
-    shareEl.addEventListener('click',() => shareFn(network));
-});
-
 var waypoints = document.getElementById("waypoints");
 
 waypoints.classList.add("isDesktop");

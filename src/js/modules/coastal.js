@@ -1,5 +1,5 @@
 import { Toolbelt } from '../modules/toolbelt'
-import template from '../../templates/template.html'
+import template from '../../templates/desktop.html'
 import L from 'leaflet' // Check it out... https://blog.webkid.io/rarely-used-leaflet-features/
 import walk from '../modules/walk.json'
 //import * as turf from '@turf/turf'
@@ -32,6 +32,8 @@ export class Coastal {
         this.screenWidth = document.documentElement.clientWidth
 
         this.screenHeight = document.documentElement.clientHeight
+
+        this.preloader = document.getElementById("interactive_preloader")
 
         this.default = "Select a popular Sydney location from the list, or explore the walk by dragging the map marker along the route. For privacy reasons small parts of the route have been skipped."
 
@@ -161,12 +163,6 @@ export class Coastal {
             }
             
         }
-
-        this.video = document.getElementById("video");
-
-        document.getElementById("slideshow_caption").innerHTML = "Slideshow: tap on the image to view some of the Bondi-to-Manly highlights"
-
-        this.progressInterval = window.setInterval(function(){ self.progress(); }, 1000);
 
         this.ractivate()
 
@@ -299,7 +295,7 @@ export class Coastal {
             events: { 
                 tap: ractiveTap,
             },
-            el: '#app',
+            el: '#master_blaster',
             data: self.database,
             template: template,
         })
@@ -362,9 +358,45 @@ export class Coastal {
 
         });
 
+        this.video = document.getElementById("video");
+
+        this.createPlayer()
+
+        this.loadedInterval = window.setInterval(function(){ self.isReady(); }, 200);
+
+    }
+
+    isReady() {
+
+        var self = this
+
+        if ( self.video.readyState === 4 ) {
+                
+            console.log("This video is ready to play")
+
+            self.video.play()
+
+            self.config();
+            
+            clearInterval(self.loadedInterval);   
+
+            self.loadedInterval = null
+
+        } else {
+
+            console.log("The video is loading")
+
+        }
+
+    }
+
+    config() {
+
+        var self = this
+
         document.getElementById("video-skip-btn").addEventListener('click',function(event) {
 
-            var target = document.getElementById("app")
+            var target = document.getElementById("flaneur")
 
             self.scrollTo(target, -130)
 
@@ -378,7 +410,7 @@ export class Coastal {
 
         });
 
-        this.createPlayer()
+        this.progressInterval = window.setInterval(function(){ self.progress(); }, 1000);
 
     }
 
@@ -536,11 +568,15 @@ export class Coastal {
 
         self.youTubePlayer.on('error', error => {
 
-            // console.log(error)
+            console.log(error)
+
+            console.log("You tube has not loaded properly")
 
         });
 
         self.youTubePlayer.on('ready', event => {
+
+            self.preloader.style.display = "none" ; 
 
             event.target.mute();
 
@@ -1008,11 +1044,13 @@ export class Coastal {
             if (window.pageYOffset > video.height && self.video) {
 
                 // Intro video
+                /*
                 if (!self.video.paused) {
 
                     self.video.pause()
 
                 }
+                */
 
                 // You tube video
                 if (self.status==2 && self.firstrun) {
@@ -1027,11 +1065,13 @@ export class Coastal {
             } else {
 
                 // Intro video
+                /*
                 if (self.video.paused) {
 
                     self.video.play()
 
                 }
+                */
 
             }
 

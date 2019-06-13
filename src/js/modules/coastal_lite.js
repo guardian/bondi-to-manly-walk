@@ -1,5 +1,5 @@
 import { Toolbelt } from '../modules/toolbelt'
-import template from '../../templates/template.html'
+import template from '../../templates/lite.html'
 import Ractive from 'ractive'
 import ractiveTap from 'ractive-events-tap'
 import smoothscroll from 'smoothscroll-polyfill';
@@ -21,7 +21,11 @@ export class Coastal {
 
         this.waypoints = this.googledoc.filter( (w) => w.EDITORIAL != "")
 
+        this.preloader = document.getElementById("interactive_preloader")
+
         this.directory = (self.screenWidth > 960 ) ? "960" : (self.screenWidth > 640) ? "640" : "416" ;
+
+        var hyperlapse = document.getElementById('waypoints');
 
         this.database = {
 
@@ -33,6 +37,10 @@ export class Coastal {
 
             isDesktop: false,
 
+            hyperWidth: hyperlapse.clientWidth,
+
+            hyperHeight: hyperlapse.clientWidth * 0.56,
+
             directory: this.directory,
 
             lightbox: {
@@ -42,8 +50,6 @@ export class Coastal {
             }
 
         }
-
-        document.getElementById("slideshow_caption").innerHTML = "Young teens skim rocks at off picturesque Cremorne Point."
 
         this.ractivate()
 
@@ -57,7 +63,7 @@ export class Coastal {
             events: { 
                 tap: ractiveTap,
             },
-            el: '#app',
+            el: '#master_blaster',
             data: self.database,
             template: template,
         })
@@ -80,8 +86,6 @@ export class Coastal {
 
         })
 
-        this.hyperlapse()
-
         var video = document.getElementById("video_walk");
 
         document.getElementById("audio-switch").addEventListener('change',function(event) {
@@ -89,6 +93,8 @@ export class Coastal {
             video.muted = (document.getElementById("audio-switch").checked==false) ? true : false ;
 
         });
+
+        self.preloader.style.display = "none" ; 
 
     }
 
@@ -177,28 +183,6 @@ export class Coastal {
             
         }, false);
 
-
-    }
-
-    hyperlapse() {
-
-        var self = this        
-
-        var hyperlapse = document.getElementById('hyperlapse');
-
-        var hyperWidth = hyperlapse.clientWidth
-
-        var hyperHeight = hyperWidth * 0.56
-
-        var iframe = document.createElement('iframe');
-        iframe.src = "https://www.youtube.com/embed/63wARkXeiRk?autoplay=0&fs=0&iv_load_policy=3&showinfo=0&rel=0&cc_load_policy=0&start=0&end=0&origin=https://youtubeembedcode.com"
-        iframe.frameborder = "0"
-        iframe.height = hyperHeight
-        iframe.width = hyperWidth
-        iframe.scrolling = "no" 
-        iframe.marginheight = "0"
-        iframe.marginwidth = "0" 
-        hyperlapse.appendChild(iframe);
 
     }
 
