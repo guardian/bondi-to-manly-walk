@@ -234,7 +234,7 @@ export class Coastal {
 
         this.pathway.attr("stroke-dasharray", this.pathLength,this.pathLength)
   
-        // console.log("path length: " + this.pathLength); //prints how long the stroke is
+        // //console.log("path length: " + this.pathLength); //prints how long the stroke is
 
         /*
         *
@@ -286,7 +286,7 @@ export class Coastal {
 
         this.pathwayRight.attr("stroke-dasharray", this.pathLengthRight,this.pathLengthRight)
   
-        // console.log("path length right: " + this.pathLengthRight); //prints how long the stroke is
+        // //console.log("path length right: " + this.pathLengthRight); //prints how long the stroke is
 
         self.renderLoop()
 
@@ -357,7 +357,7 @@ export class Coastal {
 
             self.database.lightbox.info = (self.database.lightbox.info) ? false : true ;
 
-            console.log(self.database.lightbox.info)
+            //console.log(self.database.lightbox.info)
 
             self.ractive.set('lightbox', self.database.lightbox)
 
@@ -390,26 +390,16 @@ export class Coastal {
 
             self.loadedInterval = null
                 
-            console.log(`This video is ready to play ${self.video.readyState}`)
+            console.log(`This top video is ready to play ${self.video.readyState}`)
+
+            self.preloader.style.display = "none" ; 
 
             self.playVideo()
-
-            //this.finalTests = window.setInterval(function(){ self.checklist(); }, 1000);
 
             self.config();
             
 
-        } else {
-
-            console.log("The video is loading")
-
         }
-
-    }
-
-    checklist() {
-
-        console.log("Beep")
 
     }
 
@@ -507,13 +497,13 @@ export class Coastal {
 
         if (self.stealth) {
 
-            //console.log(`Current waypoint: ${self.currentWaypoint}`)
+            ////console.log(`Current waypoint: ${self.currentWaypoint}`)
 
             var difference = Math.abs(self.distance_memory - self.distance_from_start)
 
             if (difference > 0.4 || self.distance_memory === 0) {
 
-                console.log("Time to reposition the map marker")
+                //console.log("Time to reposition the map marker")
 
                 self.distance_memory = self.distance_from_start
 
@@ -593,13 +583,9 @@ export class Coastal {
 
             console.log(error)
 
-            console.log("You tube has not loaded properly")
-
         });
 
         self.youTubePlayer.on('ready', event => {
-
-            self.preloader.style.display = "none" ; 
 
             event.target.mute();
 
@@ -619,13 +605,13 @@ export class Coastal {
 
             switch (self.status) {
               case -1:
-                // console.log('unstarted');
+                // //console.log('unstarted');
                 break;
               case 0:
-                // console.log('ended');
+                // //console.log('ended');
                 break;
               case 1:
-                // console.log('play');
+                // //console.log('play');
                 if (!self.database.initiated) {
                     self.database.initiated = true
                     self.ractive.set('initiated', self.database.initiated)
@@ -636,16 +622,16 @@ export class Coastal {
               case 2:
                 self.toolbelt.alpharizer(overlay,100)
                 overlay.className = 'youtube_overlay video_pause';
-                // console.log('paused');
+                // //console.log('paused');
                 break;
               case 3:
-                 // console.log('buffering');
+                 // //console.log('buffering');
                 break;
               case 5:
-                // console.log('video cued');
+                // //console.log('video cued');
                 break;
               default:
-               // console.log("Something is not right");
+               // //console.log("Something is not right");
             }
 
         });
@@ -701,7 +687,7 @@ export class Coastal {
 
         var self = this
 
-        console.log("You have crossed aboundary")
+        //console.log("You have crossed aboundary")
 
         var waypoint = self.currentWaypoint + 1
 
@@ -711,7 +697,7 @@ export class Coastal {
 
         if (self.googledoc[waypoint].SKIP) {
 
-            console.log("The user has crossed into a deadzone skip to the next waypoint")
+            //console.log("The user has crossed into a deadzone skip to the next waypoint")
 
             mps = self.googledoc[waypoint+1].mps
 
@@ -847,8 +833,6 @@ export class Coastal {
 
             self.stealth = false
 
-            //console.log("Pause any currently playing videos")
-
         });
 
         self.playhead.on('dragend', function(e) {
@@ -864,13 +848,13 @@ export class Coastal {
         // Set the circle radius depending on zoom level
         self.map.on('zoomend', function(e) {
 
-            //console.log("You finished zooming")
+            ////console.log("You finished zooming")
 
         });
 
         self.map.on('click', function(e) {
 
-            //console.log("You clicked on the map")
+            ////console.log("You clicked on the map")
 
         });
 
@@ -945,7 +929,7 @@ export class Coastal {
 
         self.mps = mps
 
-        console.log(`Waypoint: ${waypoint}\nCurrent stage: ${log}\nLatitude: ${longitudeLatitude[1]}\nLongitude: ${longitudeLatitude[0]}\nVideo: ${self.toolbelt.temporalFormat(playhead)}\nDistance from start: ${distance}\n----------------------------------\n\n`);
+        //console.log(`Waypoint: ${waypoint}\nCurrent stage: ${log}\nLatitude: ${longitudeLatitude[1]}\nLongitude: ${longitudeLatitude[0]}\nVideo: ${self.toolbelt.temporalFormat(playhead)}\nDistance from start: ${distance}\n----------------------------------\n\n`);
 
         self.playhead.setLatLng([longitudeLatitude[1],longitudeLatitude[0]], {
 
@@ -1070,7 +1054,7 @@ export class Coastal {
             self.pathwayRight.attr("stroke-dashoffset", `${self.pathLengthRight - window.pageYOffset - xenon}px`)
 
     
-            console.log(`${window.pageYOffset} | ${video.height / 2}`)
+            //console.log(`${window.pageYOffset} | ${video.height / 2}`)
 
             // If the user has scrolled past the intro video... pause the intro video and play the you tube video
             if (window.pageYOffset > video.height / 2) {
@@ -1127,7 +1111,7 @@ export class Coastal {
 
         var self = this
 
-        // console.log("scroll to")
+        // //console.log("scroll to")
 
         setTimeout(function() {
 
