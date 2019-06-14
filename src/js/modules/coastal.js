@@ -11,6 +11,7 @@ import ractiveTap from 'ractive-events-tap'
 import smoothscroll from 'smoothscroll-polyfill';
 import share from '../modules/share'
 smoothscroll.polyfill();
+Ractive.DEBUG = false;
 
 // https://preview.gutools.co.uk/global/ng-interactive/2019/apr/06/bondi-to-manly-walk
 
@@ -166,8 +167,6 @@ export class Coastal {
             }
             
         }
-
-        this.onYouTubeIsReady = false
 
         this.ractivate()
 
@@ -403,9 +402,9 @@ export class Coastal {
 
         if ( Number.isInteger(self.status)) {
 
-            if (self.status == 1 || self.status == 2) {
+            console.log(`API: ${self.status}`)
 
-                console.log("The youtube video is ready")
+            if (self.status == 1 || self.status == 2) {
 
                 clearInterval(self.flightInterval);
 
@@ -425,15 +424,13 @@ export class Coastal {
 
             self.retry = self.retry + 1
 
-            if (self.retry === 40) {
-
-                //YouTubePlayer
-
-                console.log("Reboot the you tube player")
+            if (self.retry === 30) {
 
                 location.reload();
 
             }
+
+            console.log(`waiting: ${self.retry * 200} ms `)
 
         }        
 
@@ -619,7 +616,7 @@ export class Coastal {
 
         self.youTubePlayer.on('error', error => {
 
-            console.log(error)
+            //console.log(error)
 
         });
 
