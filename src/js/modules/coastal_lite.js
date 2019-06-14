@@ -40,6 +40,8 @@ export class Coastal {
 
             isDesktop: false,
 
+            isiOS: (/iPad|iPhone|iPod/.test(navigator.userAgent) && window.location.origin === "file://" || /iPad|iPhone|iPod/.test(navigator.userAgent) && window.location.origin === null) ? true : false,
+
             hyperWidth: hyperlapse.clientWidth,
 
             hyperHeight: hyperlapse.clientWidth * 0.56,

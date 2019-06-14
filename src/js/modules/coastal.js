@@ -889,7 +889,9 @@ export class Coastal {
 
         self.map.on('click', function(e) {
 
-            ////console.log("You clicked on the map")
+            var coordinates = self.map.mouseEventToLatLng(e.originalEvent);
+
+            self.calculatePosition(coordinates)
 
         });
 
@@ -930,53 +932,60 @@ export class Coastal {
 
         var self = this 
         var stage_distance = self.googledoc[waypoint].stage_distance
-        var distance_from_start = self.googledoc[waypoint].distance_from_start
-        var video_start = self.googledoc[waypoint].x
-        var duration = self.googledoc[waypoint].duration
-        var pecentage = 100 / stage_distance * ( distance - distance_from_start )
-        var playhead = Math.floor(duration / 100 * pecentage) + video_start
-        var mps = self.googledoc[waypoint].mps
-        var next_waypoint = (waypoint < self.googledoc.length - 1) ? self.googledoc[waypoint+1].distance_from_start : self.total ;
-        var log = (waypoint < self.googledoc.length - 1) ? `${self.googledoc[waypoint].LOCATION} to ${self.googledoc[waypoint+1].LOCATION}` : `` ;
 
-        // If the user has selected a deadzone skip to the next waypoint
-        if (self.googledoc[waypoint].SKIP) {
+        if (stage_distance!=undefined) {
 
-            distance = self.googledoc[waypoint+1].distance_from_start
+            var distance_from_start = self.googledoc[waypoint].distance_from_start
+            var video_start = self.googledoc[waypoint].x
+            var duration = self.googledoc[waypoint].duration
+            var pecentage = 100 / stage_distance * ( distance - distance_from_start )
+            var playhead = Math.floor(duration / 100 * pecentage) + video_start
+            var mps = self.googledoc[waypoint].mps
+            var next_waypoint = (waypoint < self.googledoc.length - 1) ? self.googledoc[waypoint+1].distance_from_start : self.total ;
+            var log = (waypoint < self.googledoc.length - 1) ? `${self.googledoc[waypoint].LOCATION} to ${self.googledoc[waypoint+1].LOCATION}` : `` ;
 
-            longitudeLatitude = self.googledoc[waypoint+1].intersection
+            // If the user has selected a deadzone skip to the next waypoint
+            if (self.googledoc[waypoint].SKIP) {
 
-            playhead = self.googledoc[waypoint+1].x
+                distance = self.googledoc[waypoint+1].distance_from_start
 
-            mps = self.googledoc[waypoint+1].mps
+                longitudeLatitude = self.googledoc[waypoint+1].intersection
 
-            next_waypoint = (waypoint < self.googledoc.length - 2) ? self.googledoc[waypoint+2].distance_from_start : self.total ;
+                playhead = self.googledoc[waypoint+1].x
 
-            log = `Skipped deadzone: ${self.googledoc[waypoint].LOCATION} to ${self.googledoc[waypoint+1].LOCATION}`
+                mps = self.googledoc[waypoint+1].mps
 
+                next_waypoint = (waypoint < self.googledoc.length - 2) ? self.googledoc[waypoint+2].distance_from_start : self.total ;
+
+                log = `Skipped deadzone: ${self.googledoc[waypoint].LOCATION} to ${self.googledoc[waypoint+1].LOCATION}`
+
+            }
+
+            self.currentWaypoint = waypoint
+
+            self.distance_from_start = distance
+
+            self.next_waypoint = next_waypoint
+
+            self.mps = mps
+
+            //console.log(`Waypoint: ${waypoint}\nCurrent stage: ${log}\nLatitude: ${longitudeLatitude[1]}\nLongitude: ${longitudeLatitude[0]}\nVideo: ${self.toolbelt.temporalFormat(playhead)}\nDistance from start: ${distance}\n----------------------------------\n\n`);
+
+            self.playhead.setLatLng([longitudeLatitude[1],longitudeLatitude[0]], {
+
+                draggable: true
+
+            })
+
+            self.database.blurb = self.default
+
+            self.ractive.set('blurb', self.database.blurb)
+
+            self.youTubePlayer.seekTo(playhead, true)
+
+            
         }
 
-        self.currentWaypoint = waypoint
-
-        self.distance_from_start = distance
-
-        self.next_waypoint = next_waypoint
-
-        self.mps = mps
-
-        //console.log(`Waypoint: ${waypoint}\nCurrent stage: ${log}\nLatitude: ${longitudeLatitude[1]}\nLongitude: ${longitudeLatitude[0]}\nVideo: ${self.toolbelt.temporalFormat(playhead)}\nDistance from start: ${distance}\n----------------------------------\n\n`);
-
-        self.playhead.setLatLng([longitudeLatitude[1],longitudeLatitude[0]], {
-
-            draggable: true
-
-        })
-
-        self.database.blurb = self.default
-
-        self.ractive.set('blurb', self.database.blurb)
-
-        self.youTubePlayer.seekTo(playhead, true)
 
     }
 
